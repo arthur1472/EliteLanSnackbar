@@ -5,6 +5,53 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
+                    <div class="card-header">Bestelling in behandeling</div>
+
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Cras justo odio
+                                <span class="badge badge-primary badge-pill">14</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Dapibus ac facilisis in
+                                <span class="badge badge-primary badge-pill">2</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Morbi leo risus
+                                <span class="badge badge-primary badge-pill">1</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Naam</th>
+                                <th scope="col">Snacks</th>
+                                <th scope="col">Prijs</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Acties</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($inProgressOrders as $inProgressOrder)
+                                <tr>
+                                    <td style="vertical-align: middle;">{{$inProgressOrder->user->name}}</td>
+                                    <td style="vertical-align: middle;">{{$inProgressOrder->snacksInfo['total_snacks']}}</td>
+                                    <td style="vertical-align: middle;">{{$inProgressOrder->snacksInfo['total_price']}}</td>
+                                    <td style="vertical-align: middle;">{{$inProgressOrder->status->name}}</td>
+                                    <td><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 mt-5">
+                <div class="card">
                     <div class="card-header">Nieuwe bestellingen</div>
 
                     <div class="card-body">
@@ -13,16 +60,18 @@
                             <tr>
                                 <th scope="col">Naam</th>
                                 <th scope="col">Snacks</th>
+                                <th scope="col">Prijs</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Acties</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($unfinishedOrders as $unfinishedOrder)
+                            @foreach($newOrders as $newOrder)
                                 <tr>
-                                    <td style="vertical-align: middle;">{{$unfinishedOrder->user->name}}</td>
-                                    <td style="vertical-align: middle;">5</td>
-                                    <td style="vertical-align: middle;">{{$unfinishedOrder->status->name}}</td>
+                                    <td style="vertical-align: middle;">{{$newOrder->user->name}}</td>
+                                    <td style="vertical-align: middle;">{{$newOrder->snacksInfo['total_snacks']}}</td>
+                                    <td style="vertical-align: middle;">{{$newOrder->snacksInfo['total_price']}}</td>
+                                    <td style="vertical-align: middle;">{{$newOrder->status->name}}</td>
                                     <td><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></td>
                                 </tr>
 
@@ -41,31 +90,24 @@
                         <table class="table">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Naam</th>
+                                <th scope="col">Snacks</th>
+                                <th scope="col">Prijs</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Acties</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            @foreach($finishedOrders as $finishedOrder)
+                                <tr>
+                                    <td style="vertical-align: middle;">{{$finishedOrder->user->name}}</td>
+                                    <td style="vertical-align: middle;">{{$finishedOrder->snacksInfo['total_snacks']}}</td>
+                                    <td style="vertical-align: middle;">{{$finishedOrder->snacksInfo['total_price']}}</td>
+                                    <td style="vertical-align: middle;">{{$finishedOrder->status->name}}</td>
+                                    <td><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></td>
+                                </tr>
+
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -15,8 +15,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $unfinishedOrders = Order::whereIn('status_id', [2,3])->get();
+        $newOrders = Order::whereIn('status_id', [2])->get();
+        $inProgressOrders = Order::whereIn('status_id', [3])->get();
         $finishedOrders = Order::whereIn('status_id', [4,5])->get();
-        return view('admin.dashboard', compact('unfinishedOrders', 'finishedOrders'));
+        return view('admin.dashboard', compact('newOrders', 'finishedOrders', 'inProgressOrders'));
     }
 }
