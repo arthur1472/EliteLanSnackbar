@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -14,6 +15,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $unfinishedOrders = Order::whereIn('status_id', [2,3])->get();
+        $finishedOrders = Order::whereIn('status_id', [4,5])->get();
+        return view('admin.dashboard', compact('unfinishedOrders', 'finishedOrders'));
     }
 }

@@ -64,9 +64,9 @@
                                     <a class="dropdown-item" href="{{ route('admin.order') }}">
                                         Bestellingen
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('admin.status') }}">
-                                        Statussen
-                                    </a>
+{{--                                    <a class="dropdown-item" href="{{ route('admin.status') }}">--}}
+{{--                                        Statussen--}}
+{{--                                    </a>--}}
                                     <a class="dropdown-item" href="{{ route('admin.user') }}">
                                         Gebruikers
                                     </a>
