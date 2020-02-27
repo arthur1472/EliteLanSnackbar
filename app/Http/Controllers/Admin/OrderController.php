@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Order;
+use App\Status;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -43,11 +44,16 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Order $order)
+    public function show($order_id)
     {
-        //
+        $order = Order::find($order_id);
+
+        if (!$order) {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('admin.order', compact('order'));
     }
 
     /**
@@ -68,9 +74,28 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, $orderId)
     {
-        //
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        $paid = $request->post('paid');
+
+        if ($paid !== null) {
+            $order->paid = ($paid) ? 1 : 0;
+        }
+
+        $status_id = $request->post('status');
+        if ($status_id !== null) {
+            $status = Status::find($status_id);
+            $order->status_id = ($status) ? $status->id : $order->status_id;
+        }
+
+        $order->save();
+        return redirect()->route('admin.order.show', ['id' => $order->id]);
     }
 
     /**

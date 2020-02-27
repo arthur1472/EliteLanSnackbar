@@ -8,22 +8,6 @@
                     <div class="card-header">Bestelling in behandeling</div>
 
                     <div class="card-body">
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Cras justo odio
-                                <span class="badge badge-primary badge-pill">14</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Dapibus ac facilisis in
-                                <span class="badge badge-primary badge-pill">2</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Morbi leo risus
-                                <span class="badge badge-primary badge-pill">1</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
                         <table class="table">
                             <thead class="thead-light">
                             <tr>
@@ -41,7 +25,7 @@
                                     <td style="vertical-align: middle;">{{$inProgressOrder->snacksInfo['total_snacks']}}</td>
                                     <td style="vertical-align: middle;">{{$inProgressOrder->snacksInfo['total_price']}}</td>
                                     <td style="vertical-align: middle;">{{$inProgressOrder->status->name}}</td>
-                                    <td><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></td>
+                                    <td><a href="{{route('admin.order.show', ['id' => $inProgressOrder->id])}}"><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></a></td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -72,7 +56,7 @@
                                     <td style="vertical-align: middle;">{{$newOrder->snacksInfo['total_snacks']}}</td>
                                     <td style="vertical-align: middle;">{{$newOrder->snacksInfo['total_price']}}</td>
                                     <td style="vertical-align: middle;">{{$newOrder->status->name}}</td>
-                                    <td><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></td>
+                                    <td><a href="{{route('admin.order.show', ['id' => $newOrder->id])}}"><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></a></td>
                                 </tr>
 
                             @endforeach
@@ -104,7 +88,7 @@
                                     <td style="vertical-align: middle;">{{$finishedOrder->snacksInfo['total_snacks']}}</td>
                                     <td style="vertical-align: middle;">{{$finishedOrder->snacksInfo['total_price']}}</td>
                                     <td style="vertical-align: middle;">{{$finishedOrder->status->name}}</td>
-                                    <td><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></td>
+                                    <td><a href="{{route('admin.order.show', ['id' => $finishedOrder->id])}}"><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></a></td>
                                 </tr>
 
                             @endforeach

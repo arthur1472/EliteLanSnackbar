@@ -47,7 +47,7 @@ class SnackController extends Controller
      */
     public function show(Snack $snack)
     {
-        //
+        return view('admin.snack', compact('snack'));
     }
 
     /**
