@@ -85,6 +85,6 @@
             @yield('content')
         </main>
     </div>
-    @yield('extra')
+{{--    @yield('extra')--}}
 </body>
 </html>
