@@ -30,7 +30,6 @@ class HomeController extends Controller
         $inProgressOrders = $user->orders()->whereIn('status_id', [3])->get();
         $finishedOrders = $user->orders()->whereIn('status_id', [4,5])->get();
 
-//        $refreshPage = $request->get('refresh', 1);
         return view('home', compact('unfinishedOrders','newOrders','inProgressOrders','finishedOrders'));
     }
 }

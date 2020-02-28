@@ -124,12 +124,10 @@
         </div>
     </div>
 @endsection
-{{--@section('extra')--}}
-{{--    <script>--}}
-{{--        @if($refreshPage)--}}
-{{--        setTimeout(function() {--}}
-{{--            location.reload();--}}
-{{--        }, 25000);--}}
-{{--        @endif--}}
-{{--    </script>--}}
-{{--@endsection--}}
+@section('extra')
+    <script>
+        setTimeout(function() {
+            location.reload();
+        }, 25000);
+    </script>
+@endsection
