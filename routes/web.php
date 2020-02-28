@@ -12,13 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/order/{id}', 'OrderController@show')->name('order.show');
+Route::get('/order/create', 'OrderController@create')->name('order.create')->middleware('auth');
+Route::get('/order/{id}/update', 'OrderController@edit')->name('order.edit')->middleware('auth');
+Route::get('/order/{id}', 'OrderController@show')->name('order.show')->middleware('auth');
+Route::post('/order/{id}', 'OrderController@update')->name('order.update')->middleware('auth');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', 'Admin\DashboardController@index')->name('dashboard')->middleware(['role:admin']);
