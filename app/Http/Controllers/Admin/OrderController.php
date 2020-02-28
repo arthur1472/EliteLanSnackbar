@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\OrderStatusChanged;
 use App\Order;
 use App\Status;
 use Illuminate\Http\Request;
@@ -100,6 +101,10 @@ class OrderController extends Controller
         }
 
         $order->save();
+
+        if ($status_id !== null) {
+            event(new OrderStatusChanged($orderId));
+        }
         return redirect()->route('admin.order.show', ['id' => $order->id]);
     }
 
