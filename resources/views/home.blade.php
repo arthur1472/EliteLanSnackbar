@@ -193,9 +193,13 @@
         @endif
     </div>
 </div>
+@endsection
+@section('extra')
 <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+    @if($refreshPage)
+        setTimeout(function() {
+            location.reload();
+        }, 25000);
+    @endif
 </script>
 @endsection
