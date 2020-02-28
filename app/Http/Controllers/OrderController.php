@@ -126,6 +126,10 @@ class OrderController extends Controller
         }
 
         if ($request->post('complete')) {
+            if (count($order->snack) === 0) {
+                return redirect()->route('order.edit', ['id' => $order_id]);
+            }
+            
             $userNote = $request->post('user_note');
             $order->user_note = $userNote;
             $order->submitted = 1;
