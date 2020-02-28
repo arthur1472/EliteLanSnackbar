@@ -55,22 +55,15 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                        Admin dashboard
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('admin.snack') }}">
-                                        Snacks
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('admin.order') }}">
-                                        Bestellingen
-                                    </a>
-{{--                                    <a class="dropdown-item" href="{{ route('admin.status') }}">--}}
-{{--                                        Statussen--}}
-{{--                                    </a>--}}
-                                    <a class="dropdown-item" href="{{ route('admin.user') }}">
-                                        Gebruikers
-                                    </a>
-                                    <a class="dropdown-item" href="#">&nbsp;</a>
+                                    @if(Auth::user()->hasRole('admin'))
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                            Admin dashboard
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('admin.snack') }}">
+                                            Snacks
+                                        </a>
+                                        <a class="dropdown-item" href="#">&nbsp;</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

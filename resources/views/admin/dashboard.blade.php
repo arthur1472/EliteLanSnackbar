@@ -14,6 +14,7 @@
                                 <th scope="col">Naam</th>
                                 <th scope="col">Snacks</th>
                                 <th scope="col">Prijs</th>
+                                <th scope="col">Betaald</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Acties</th>
                             </tr>
@@ -24,7 +25,14 @@
                                     <td style="vertical-align: middle;">{{$inProgressOrder->user->name}}</td>
                                     <td style="vertical-align: middle;">{{$inProgressOrder->snacksInfo['total_snacks']}}</td>
                                     <td style="vertical-align: middle;">{{$inProgressOrder->snacksInfo['total_price']}}</td>
-                                    <td style="vertical-align: middle;">{{$inProgressOrder->status->name}}</td>
+                                    <td style="vertical-align: middle;">
+                                        @if($inProgressOrder->paid)
+                                            <button type="button" class="btn-sm btn-success">Ja</button>
+                                        @else
+                                            <button type="button" class="btn-sm btn-danger">Nee</button>
+                                        @endif
+                                    </td>
+                                    <td style="vertical-align: middle;"><button type="submit" class="btn-sm {{$inProgressOrder->status->button_class}}">{{$inProgressOrder->status->name}}</button></td>
                                     <td><a href="{{route('admin.order.show', ['id' => $inProgressOrder->id])}}"><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></a></td>
                                 </tr>
                             @endforeach
@@ -45,6 +53,7 @@
                                 <th scope="col">Naam</th>
                                 <th scope="col">Snacks</th>
                                 <th scope="col">Prijs</th>
+                                <th scope="col">Betaald</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Acties</th>
                             </tr>
@@ -55,7 +64,14 @@
                                     <td style="vertical-align: middle;">{{$newOrder->user->name}}</td>
                                     <td style="vertical-align: middle;">{{$newOrder->snacksInfo['total_snacks']}}</td>
                                     <td style="vertical-align: middle;">{{$newOrder->snacksInfo['total_price']}}</td>
-                                    <td style="vertical-align: middle;">{{$newOrder->status->name}}</td>
+                                    <td style="vertical-align: middle;">
+                                        @if($newOrder->paid)
+                                            <button type="button" class="btn-sm btn-success">Ja</button>
+                                        @else
+                                            <button type="button" class="btn-sm btn-danger">Nee</button>
+                                        @endif
+                                    </td>
+                                    <td style="vertical-align: middle;"><button type="submit" class="btn-sm {{$newOrder->status->button_class}}">{{$newOrder->status->name}}</button></td>
                                     <td><a href="{{route('admin.order.show', ['id' => $newOrder->id])}}"><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></a></td>
                                 </tr>
 
@@ -77,6 +93,7 @@
                                 <th scope="col">Naam</th>
                                 <th scope="col">Snacks</th>
                                 <th scope="col">Prijs</th>
+                                <th scope="col">Betaald</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Acties</th>
                             </tr>
@@ -87,7 +104,14 @@
                                     <td style="vertical-align: middle;">{{$finishedOrder->user->name}}</td>
                                     <td style="vertical-align: middle;">{{$finishedOrder->snacksInfo['total_snacks']}}</td>
                                     <td style="vertical-align: middle;">{{$finishedOrder->snacksInfo['total_price']}}</td>
-                                    <td style="vertical-align: middle;">{{$finishedOrder->status->name}}</td>
+                                    <td style="vertical-align: middle;">
+                                        @if($finishedOrder->paid)
+                                            <button type="button" class="btn-sm btn-success">Ja</button>
+                                        @else
+                                            <button type="button" class="btn-sm btn-danger">Nee</button>
+                                        @endif
+                                    </td>
+                                    <td style="vertical-align: middle;"><button type="submit" class="btn-sm {{$finishedOrder->status->button_class}}">{{$finishedOrder->status->name}}</button></td>
                                     <td><a href="{{route('admin.order.show', ['id' => $finishedOrder->id])}}"><button type="button" class="btn-sm btn-info text-white">Aanpassen</button></a></td>
                                 </tr>
 

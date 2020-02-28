@@ -15,7 +15,8 @@ class SnackController extends Controller
      */
     public function index()
     {
-        //
+        $snacks = Snack::all();
+        return view('admin.snacks', compact('snacks'));
     }
 
     /**
@@ -25,28 +26,38 @@ class SnackController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.snackcreate');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $snack = new Snack();
+        $snack->fill($request->all());
+        $snack->save();
+
+        return redirect()->route('admin.snack');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Snack  $snack
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Snack $snack)
+    public function show($snack_id)
     {
+        $snack = Snack::find($snack_id);
+
+        if (!$snack) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.snack', compact('snack'));
     }
 
@@ -68,9 +79,20 @@ class SnackController extends Controller
      * @param  \App\Snack  $snack
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Snack $snack)
+    public function update(Request $request, $snack_id)
     {
-        //
+        $snack = Snack::find($snack_id);
+
+        if (!$snack) {
+            return redirect()->route('admin.dashboard');
+        }
+
+
+        $snack->fill($request->all());
+        $snack->save();
+
+        return redirect()->route('admin.snack.show', ['id' => $snack->id]);
+
     }
 
     /**

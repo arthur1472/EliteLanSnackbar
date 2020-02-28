@@ -16,9 +16,11 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->boolean('submitted');
-            $table->integer('status_id');
-            $table->boolean('paid');
+            $table->boolean('submitted')->default(0);
+            $table->integer('status_id')->default(1);
+            $table->boolean('paid')->default(0);
+            $table->text('user_note')->nullable();
+            $table->text('admin_note')->nullable();
             $table->timestamps();
         });
     }

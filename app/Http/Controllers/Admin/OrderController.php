@@ -94,6 +94,11 @@ class OrderController extends Controller
             $order->status_id = ($status) ? $status->id : $order->status_id;
         }
 
+        $admin_note = $request->post('admin_note');
+        if ($admin_note !== null) {
+            $order->admin_note = $admin_note;
+        }
+
         $order->save();
         return redirect()->route('admin.order.show', ['id' => $order->id]);
     }
