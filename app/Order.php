@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\OrderUpdatedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -45,4 +46,13 @@ class Order extends Model
 
         return $snacksInfo;
     }
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'updated' => OrderUpdatedEvent::class,
+    ];
 }
