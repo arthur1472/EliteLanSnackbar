@@ -2,15 +2,11 @@
 
 namespace App\Providers;
 
-use App\Events\OrderStatusChanged;
-use App\Events\OrderUpdatedEvent;
-use App\Listeners\OrderAdminNoteUpdateListener;
-use App\Listeners\OrderStatusUpdateListener;
-use App\Listeners\SendOrderStatusMessageListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,13 +19,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-//        OrderStatusChanged::class => [
-//            SendOrderStatusMessageListener::class,
-//        ],
-        OrderUpdatedEvent::class => [
-            OrderStatusUpdateListener::class,
-            OrderAdminNoteUpdateListener::class
-        ]
+        SocialiteWasCalled::class => [
+            'SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',
+        ],
     ];
 
     /**
@@ -39,8 +31,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        parent::boot();
-
         //
     }
 }

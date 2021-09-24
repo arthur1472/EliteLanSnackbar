@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,27 +17,25 @@
 */
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('welcome');
 });
 
-Auth::routes();
+Route::middleware('auth')->group(function() {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth'])->name('dashboard');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/order/create', 'OrderController@create')->name('order.create')->middleware('auth');
-Route::get('/order/{id}/update', 'OrderController@edit')->name('order.edit')->middleware('auth');
-Route::get('/order/{id}', 'OrderController@show')->name('order.show')->middleware('auth');
-Route::post('/order/{id}', 'OrderController@update')->name('order.update')->middleware('auth');
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('dashboard', 'Admin\DashboardController@index')->name('dashboard')->middleware(['role:admin']);
-    Route::get('snack', 'Admin\SnackController@index')->name('snack')->middleware(['role:admin']);
-    Route::get('snack/create', 'Admin\SnackController@create')->name('snack.create')->middleware(['role:admin']);
-    Route::post('snack/create', 'Admin\SnackController@store')->name('snack.store')->middleware(['role:admin']);
-    Route::get('snack/{id}', 'Admin\SnackController@show')->name('snack.show')->middleware(['role:admin']);
-    Route::post('snack/{id}', 'Admin\SnackController@update')->name('snack.update')->middleware(['role:admin']);
-    Route::get('user', 'Admin\UserController@index')->name('user')->middleware(['role:admin']);
-    Route::get('status', 'Admin\StatusController@index')->name('status')->middleware(['role:admin']);
-    Route::get('order', 'Admin\OrderController@index')->name('order')->middleware(['role:admin']);
-    Route::get('order/{id}', 'Admin\OrderController@show')->name('order.show')->middleware(['role:admin']);
-    Route::post('order/{id}', 'Admin\OrderController@update')->name('order.update')->middleware(['role:admin']);
+    Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+    Route::get('/items/{item}/configure', [ItemController::class, 'configure'])->name('items.configure');
+    Route::get('/cart', [CartController::class, 'index'])->name('carts.index');
+    Route::post('/cart/add', [CartController::class, 'addItem'])->name('carts.add_item');
+    Route::post('/cart/{cart_line}/quantity', [CartController::class, 'changeQuantity'])->name('carts.quantity');
+    Route::delete('/cart/{cart_line}/delete', [CartController::class, 'delete'])->name('carts.delete');
+    Route::post('/order/store', [OrderController::class, 'store'])->name('orders.store');
 });
+
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
