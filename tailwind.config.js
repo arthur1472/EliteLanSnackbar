@@ -12,6 +12,15 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            borderRadius: {
+                'extreme': '4.5rem',
+            },
+            textColor: {
+                'discord': '#7289DA'
+            },
+            backgroundColor: {
+                'discord': '#7289DA'
+            }
         },
     },
 

@@ -32,7 +32,9 @@ class CartLines extends Model
 
         foreach (json_decode($this->toppings) as $topping) {
             $toppingModel = Topping::find($topping);
-            $toppingModels->add($toppingModel);
+            if ($toppingModel->active) {
+                $toppingModels->add($toppingModel);
+            }
         }
 
         return $toppingModels;

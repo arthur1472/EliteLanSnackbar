@@ -20,4 +20,9 @@ class ItemType extends Model
     {
         return $this->hasMany(Item::class)->active();
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }

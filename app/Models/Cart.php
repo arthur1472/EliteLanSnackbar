@@ -27,7 +27,7 @@ class Cart extends Model
     public function getPriceAttribute()
     {
         $lines = $this->cartLines->map(fn($cartLine) => [
-            'price' => $cartLine->quantity * $cartLine->item->price
+            'price' => $cartLine->quantity * $cartLine->item->price,
         ]);
 
         return $lines->sum('price');
@@ -45,13 +45,49 @@ class Cart extends Model
         ]);
     }
 
-    public function addItem($itemId, $quantity = 1, $toppings = null)
+    public function addItem(Item $item, $quantity = 1, $toppings = null)
     {
+        $cartLine = $this->cartLines->where('item_id', $item->id)->first();
+        if (! $item->hasToppings() && $cartLine) {
+            if ($cartLine->quantity >= 20) {
+                return;
+            }
+
+            $cartLine->quantity++;
+            $cartLine->save();
+
+            return;
+        }
+
         CartLines::create([
             'cart_id'  => $this->id,
-            'item_id'  => $itemId,
+            'item_id'  => $item->id,
             'quantity' => $quantity,
-            'toppings' => is_array($toppings) ? json_encode($toppings) : null,
+            'toppings' => is_array($toppings) && !empty($toppings) ? json_encode($toppings) : null,
         ]);
+    }
+
+    public static function importFromOrder(Order $order)
+    {
+        $cart = $order->user->cart;
+
+        foreach ($order->orderLines as $orderLine) {
+            $toppings = [];
+            if ($orderLine->toppings) {
+                foreach (json_decode($orderLine->toppings) as $topping) {
+                    $toppingModel = Topping::find($topping);
+                    if ($toppingModel && $toppingModel->active) {
+                        $toppings[] = $topping;
+                    }
+                }
+            }
+
+            $item = Item::find($orderLine->item_id);
+            if (!$item || !$item->active || !$item->type->active) {
+                continue;
+            }
+
+            $cart->addItem($item, $orderLine->quantity, $toppings);
+        }
     }
 }

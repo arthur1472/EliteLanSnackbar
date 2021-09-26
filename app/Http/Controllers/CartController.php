@@ -47,7 +47,7 @@ class CartController extends Controller
             }
         }
 
-        $cart->addItem($itemId, toppings: $toppingsArray === [] ? null : $toppingsArray);
+        $cart->addItem($item, toppings: $toppingsArray === [] ? null : $toppingsArray);
 
         return response()->redirectToRoute('carts.index');
     }

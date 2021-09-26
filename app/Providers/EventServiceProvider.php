@@ -16,9 +16,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+//        Registered::class => [
+//            SendEmailVerificationNotification::class,
+//        ],
         SocialiteWasCalled::class => [
             'SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',
         ],
@@ -32,5 +32,10 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    public function shouldDiscoverEvents()
+    {
+        return true;
     }
 }

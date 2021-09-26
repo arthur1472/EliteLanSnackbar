@@ -21,4 +21,20 @@ class OrderLine extends Model
     {
         return $this->belongsTo(Item::class);
     }
+
+    public function getToppingModelsAttribute()
+    {
+        if (! $this->toppings) {
+            return null;
+        }
+
+        $toppingModels = collect();
+
+        foreach (json_decode($this->toppings) as $topping) {
+            $toppingModel = Topping::find($topping);
+            $toppingModels->add($toppingModel);
+        }
+
+        return $toppingModels;
+    }
 }
