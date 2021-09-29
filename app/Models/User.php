@@ -53,7 +53,7 @@ class User extends Authenticatable
         $cart = Cart::where('user_id', $this->id)->first();
 
         if ($cart) {
-            return $cart->get()->first();
+            return $cart;
         }
 
         return Cart::create([

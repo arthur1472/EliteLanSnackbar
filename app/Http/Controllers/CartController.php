@@ -12,7 +12,7 @@ class CartController extends Controller
     public function index(Request $request)
     {
         return view('carts.index', [
-            'cart' => $request->user()->cart->with('cartLines')->first(),
+            'cart' => $request->user()->cart,
         ]);
     }
 
