@@ -16,6 +16,10 @@ class IsAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if (! $request->user()->is_admin) {
+            return response()->redirectToRoute('orders.index');
+        }
+
         return $next($request);
     }
 }
