@@ -56,5 +56,10 @@
             </div>
         </div>
     </div>
-
+<div class="hidden">
+    <p class="bg-black">a</p>
+    <p class="bg-blue-500">b</p>
+    <p class="bg-green-500">c</p>
+    <p class="bg-red-500">d</p>
+</div>
 </x-app-layout>
