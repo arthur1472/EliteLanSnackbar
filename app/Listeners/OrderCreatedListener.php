@@ -12,11 +12,12 @@ class OrderCreatedListener
 {
     public function handle(OrderCreatedEvent $event)
     {
-        $order   = $event->order;
+        $order = $event->order;
 
         SendDiscordWebhookMessageJob::dispatch(
             config('snackbar.new'),
-            "{$order->user->name} heeft een nieuwe bestelling geplaatst met nr. {$order->id}".PHP_EOL.route('login')
+            "{$order->user->name} heeft een nieuwe bestelling geplaatst met nr. {$order->id}" . PHP_EOL .
+            route('admin.orders.show', ['order' => $order])
         );
 
         SendDiscordWebhookMessageJob::dispatch(

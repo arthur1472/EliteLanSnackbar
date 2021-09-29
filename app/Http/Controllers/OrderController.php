@@ -12,7 +12,7 @@ class OrderController extends Controller
     {
         $user = $request->user();
 
-        $ordersStatuses = $user->orders()->with('status')->get()->sortByDesc('id')->groupBy('status_id');
+        $ordersStatuses = $user->orders()->with('status')->get()->sortByDesc(['status_id','id'])->groupBy('status_id');
 
         return view('orders.index', [
             'ordersStatuses' => $ordersStatuses,

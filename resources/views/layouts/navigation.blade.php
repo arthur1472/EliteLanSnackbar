@@ -42,6 +42,18 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
+                            <x-dropdown-link :href="route('admin.items.index')">
+                                {{ __('Producten') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.orders.index')">
+                                {{ __('Bestellingen') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.toppings.index')">
+                                {{ __('Toppings') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.item-types.index')">
+                                {{ __('Categorieën') }}
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -89,6 +101,20 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
+                    @if(Auth::user()->is_admin)
+                        <x-responsive-nav-link :href="route('admin.items.index')">
+                            {{ __('Producten') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('admin.orders.index')">
+                            {{ __('Bestellingen') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('admin.toppings.index')">
+                            {{ __('Toppings') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('admin.item-types.index')">
+                            {{ __('Categorieën') }}
+                        </x-responsive-nav-link>
+                    @endif
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">

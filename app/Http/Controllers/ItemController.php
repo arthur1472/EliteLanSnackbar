@@ -11,7 +11,7 @@ class ItemController extends Controller
     public function index()
     {
         return view('items.index')->with([
-            'itemTypes' => ItemType::active()->get(),
+            'itemTypes' => ItemType::active()->get()->sortBy('priority'),
         ]);
     }
 

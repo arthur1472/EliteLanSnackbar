@@ -12,6 +12,10 @@ class ItemType extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'active' => 'boolean'
+    ];
+
     protected $with = [
         'items'
     ];

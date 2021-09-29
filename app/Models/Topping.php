@@ -16,4 +16,9 @@ class Topping extends Model
     {
         return collect($toppingIds)->transform(fn($toppingId) => self::find($toppingId));
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }

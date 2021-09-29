@@ -8,79 +8,58 @@ use Illuminate\Http\Request;
 
 class ItemTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view('admin.item-types.index', [
+            'itemTypes' => ItemType::all()->sortBy('priority'),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.item-types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        ItemType::create([
+            'name'     => $request->name,
+            'priority' => $request->priority,
+            'active'   => $request->active === 'on',
+        ]);
+
+        return response()->redirectToRoute('admin.item-types.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ItemType  $itemType
-     * @return \Illuminate\Http\Response
-     */
     public function show(ItemType $itemType)
     {
-        //
+        return view('admin.item-types.show', [
+            'itemType' => $itemType,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ItemType  $itemType
-     * @return \Illuminate\Http\Response
-     */
     public function edit(ItemType $itemType)
     {
-        //
+        return view('admin.item-types.edit', [
+            'itemType' => $itemType,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ItemType  $itemType
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, ItemType $itemType)
     {
-        //
+        $itemType->name     = $request->name;
+        $itemType->priority = $request->priority;
+        $itemType->active   = $request->active === 'on';
+
+        $itemType->save();
+
+        return response()->redirectToRoute('admin.item-types.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ItemType  $itemType
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ItemType $itemType)
     {
-        //
+        $itemType->delete();
+
+        return response()->redirectToRoute('admin.item-types.index');
     }
 }

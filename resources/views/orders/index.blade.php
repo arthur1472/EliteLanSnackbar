@@ -67,7 +67,7 @@
                                             <div>
                                                 <dt class="font-medium text-gray-900">Totaal bedrag</dt>
                                                 <dd class="mt-1 font-medium text-gray-900">
-                                                    €{{$order->price}}
+                                                    €{{number_format($order->price, 2)}}
                                                 </dd>
                                             </div>
                                         </dl>
@@ -80,8 +80,20 @@
                                     </div>
 
                                     <!-- Products -->
-                                    <h4 class="sr-only">Producten</h4>
                                     <ul role="list" class="divide-y divide-gray-200">
+                                        @if($order->system_note)
+                                            <li class="p-4 sm:p-6 bg-red-100">
+                                                <div class="flex items-center sm:items-start">
+                                                    <div class="flex-1 text-sm">
+                                                        <div class="font-medium text-gray-900 sm:flex sm:justify-between">
+                                                            <h5>
+                                                                Opmerking systeem: {{$order->system_note}}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
                                         @foreach($order->orderLines as $orderLine)
                                             <li class="p-4 sm:p-6">
                                                 <div class="flex items-center sm:items-start">
@@ -91,11 +103,11 @@
                                                                 {{$orderLine->item->name}} ({{$orderLine->quantity}}x)
                                                             </h5>
                                                             <p class="mt-2 sm:mt-0">
-                                                                €{{$orderLine->item->price * $orderLine->quantity}}
+                                                                €{{number_format($orderLine->item->price * $orderLine->quantity, 2)}}
                                                             </p>
                                                         </div>
                                                         <p class="text-gray-500 block mt-2">
-                                                            €{{$orderLine->item->price}} p.st.
+                                                            €{{number_format($orderLine->item->price, 2)}} p.st.
                                                         </p>
                                                         <p class="text-gray-500 block mt-2">
                                                             @if($orderLine->toppingModels)
@@ -113,7 +125,7 @@
                                             </li>
                                         @endforeach
                                         @if($order->user_note)
-                                                <li class="p-4 sm:p-6">
+                                                <li class="p-4 sm:p-6 bg-green-100">
                                                     <div class="flex items-center sm:items-start">
                                                         <div class="flex-1 text-sm">
                                                             <div class="font-medium text-gray-900 sm:flex sm:justify-between">

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Items') }}
+            {{ __('Producten') }}
         </h2>
     </x-slot>
 
@@ -26,7 +26,7 @@
                                     </h3>
                                     <p class="mt-1 text-sm text-gray-500">{{$item->description}}</p>
                                 </div>
-                                <p class="text-md font-medium text-gray-900">€{{$item->price}}</p>
+                                <p class="text-md font-medium text-gray-900">€{{number_format($item->price,2)}}</p>
                             </div>
 
                             <div class="mt-4">

@@ -28,7 +28,7 @@
 
                 <fieldset>
                     <div class="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
-                        @foreach($item->toppings as $topping)
+                        @foreach($item->toppings()->active()->get() as $topping)
                             <div class="relative flex items-start py-4">
                                 <div class="min-w-0 flex-1 text-sm">
                                     <label for="topping-{{$topping->id}}" class="font-medium text-gray-700 select-none">{{$topping->name}}</label>

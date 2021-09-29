@@ -16,7 +16,7 @@ class CreateToppingsTable extends Migration
         Schema::create('toppings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

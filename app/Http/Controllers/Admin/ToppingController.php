@@ -8,79 +8,55 @@ use Illuminate\Http\Request;
 
 class ToppingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view('admin.toppings.index', [
+            'toppings' => Topping::all(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.toppings.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        Topping::create([
+            'name'     => $request->name,
+            'active'   => $request->active === 'on',
+        ]);
+
+        return response()->redirectToRoute('admin.toppings.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Topping  $topping
-     * @return \Illuminate\Http\Response
-     */
     public function show(Topping $topping)
     {
-        //
+        return view('admin.toppings.show', [
+            'topping' => $topping,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Topping  $topping
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Topping $topping)
     {
-        //
+        return view('admin.toppings.edit', [
+            'topping' => $topping,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Topping  $topping
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Topping $topping)
     {
-        //
+        $topping->name     = $request->name;
+        $topping->active   = $request->active === 'on';
+
+        $topping->save();
+
+        return response()->redirectToRoute('admin.toppings.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Topping  $topping
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Topping $topping)
     {
-        //
+        $topping->delete();
+        return response()->redirectToRoute('admin.toppings.index');
     }
 }

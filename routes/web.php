@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\ItemController as AdminItemController;
+use App\Http\Controllers\Admin\ItemTypeController as AdminItemTypeController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ToppingController as AdminToppingController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
@@ -44,6 +48,13 @@ Route::middleware('auth')->group(function() {
     Route::get('/first-time', [FirstTimeController::class, 'index'])->name('first-time.index');
     Route::post('/first-time', [FirstTimeController::class, 'update'])->name('first-time.update');
 
+});
+
+Route::middleware('is.admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('items', AdminItemController::class);
+    Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
+    Route::resource('toppings', AdminToppingController::class);
+    Route::resource('item-types', AdminItemTypeController::class);
 });
 
 Route::get('/discord/redirect', fn() => Socialite::driver('discord')->redirect())->name('discord.redirect');
