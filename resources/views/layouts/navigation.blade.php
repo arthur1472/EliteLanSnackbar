@@ -16,7 +16,7 @@
                         {{ __('Bestellingen') }}
                     </x-nav-link>
                     <x-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">
-                        {{ __('Nieuwe bestellig') }}
+                        {{ __('Nieuwe bestelling') }}
                     </x-nav-link>
                 </div>
             </div>
