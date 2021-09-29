@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\ItemType;
+use App\Models\Topping;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -20,6 +21,7 @@ class ItemController extends Controller
     {
         return view('admin.items.create', [
             'itemTypes' => ItemType::all(),
+            'toppings'  => Topping::active()->get(),
         ]);
     }
 
@@ -29,13 +31,30 @@ class ItemController extends Controller
             return response()->redirectToRoute('admin.items.create');
         }
 
-        Item::create([
+        $item = Item::create([
             'name'         => $request->name,
             'description'  => $request->description,
             'price'        => $request->price,
             'active'       => $request->active === 'on',
             'item_type_id' => $request->item_type,
         ]);
+
+        $toppings      = $request->toppings;
+        $toppingsArray = [];
+
+        if ($toppings) {
+            foreach ($toppings as $topping => $value) {
+                $toppingModel = Topping::find($topping);
+
+                if (! $toppingModel) {
+                    continue;
+                }
+
+                $toppingsArray[] = $topping;
+            }
+        }
+
+        $item->toppings()->sync($toppingsArray);
 
         return response()->redirectToRoute('admin.items.index');
     }
@@ -52,6 +71,7 @@ class ItemController extends Controller
         return view('admin.items.edit', [
             'item'      => $item,
             'itemTypes' => ItemType::all(),
+            'toppings'  => Topping::active()->get(),
         ]);
     }
 
@@ -66,6 +86,23 @@ class ItemController extends Controller
         $item->price        = $request->price;
         $item->active       = $request->active === 'on';
         $item->item_type_id = $request->item_type;
+
+        $toppings      = $request->toppings;
+        $toppingsArray = [];
+
+        if ($toppings) {
+            foreach ($toppings as $topping => $value) {
+                $toppingModel = Topping::find($topping);
+
+                if (! $toppingModel) {
+                    continue;
+                }
+
+                $toppingsArray[] = $topping;
+            }
+        }
+
+        $item->toppings()->sync($toppingsArray);
 
         $item->save();
 

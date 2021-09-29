@@ -26,13 +26,30 @@
                                 </div>
                                 <div class="col-span-6">
                                     <label for="item_type" class="block text-sm font-medium text-gray-700">Categorie</label>
-                                    <select id="item_type" name="item_type">
+                                    <select id="item_type" name="item_type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                         @foreach($itemTypes as $itemType)
                                             <option value="{{$itemType->id}}">{{$itemType->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <fieldset>
+                                <label class="block text-md text-bold font-medium text-gray-700">Toppings</label>
+                                <div class="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
+                                    @foreach($toppings as $topping)
+                                        <div class="relative flex items-start py-4">
+                                            <div class="min-w-0 flex-1 text-sm">
+                                                <label for="topping-{{$topping->id}}" class="font-medium text-gray-700 select-none">{{$topping->name}}</label>
+                                            </div>
+                                            <div class="ml-3 flex items-center h-5">
+                                                <input id="topping-{{$topping->id}}" name="toppings[{{$topping->id}}]" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </fieldset>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                             <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
