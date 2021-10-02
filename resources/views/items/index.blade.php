@@ -48,7 +48,7 @@
     </div>
 
     <div class="max-w-2xl mx-auto py-6 px-4 sm:py-6 sm:px-6 lg:max-w-7xl lg:px-8">
-        <ul role="list" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul role="list" class="mt-8 mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
                 <div class="w-full flex items-center justify-between p-6 space-x-6">
                     <div class="flex-1">
