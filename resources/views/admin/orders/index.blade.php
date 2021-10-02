@@ -43,7 +43,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{$order->created_at->toDateTimeString()}}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end">
+                                            <td @click="open = !open" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end">
                                                 <a href="{{route('admin.orders.show', ['order' => $order])}}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Bekijk</a>
                                             </td>
                                         </tr>
