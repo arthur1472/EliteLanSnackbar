@@ -23,9 +23,9 @@ class ItemTypeController extends Controller
     public function store(Request $request)
     {
         ItemType::create([
-            'name'     => $request->name,
+            'name' => $request->name,
             'priority' => $request->priority,
-            'active'   => $request->active === 'on',
+            'active' => $request->active === 'on',
         ]);
 
         return response()->redirectToRoute('admin.item-types.index');
@@ -47,9 +47,9 @@ class ItemTypeController extends Controller
 
     public function update(Request $request, ItemType $itemType)
     {
-        $itemType->name     = $request->name;
+        $itemType->name = $request->name;
         $itemType->priority = $request->priority;
-        $itemType->active   = $request->active === 'on';
+        $itemType->active = $request->active === 'on';
 
         $itemType->save();
 

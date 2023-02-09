@@ -18,7 +18,7 @@ class DiscordController extends Controller
         }
 
         if ($request->user()) {
-            $user             = $request->user();
+            $user = $request->user();
             $user->discord_id = $discordUser->getId();
             $user->save();
 
@@ -29,8 +29,8 @@ class DiscordController extends Controller
 
         if (! $user) {
             $newUser = User::create([
-                'name'       => $discordUser->getName(),
-                'email'      => $discordUser->getEmail(),
+                'name' => $discordUser->getName(),
+                'email' => $discordUser->getEmail(),
                 'discord_id' => $discordUser->getId(),
             ]);
 

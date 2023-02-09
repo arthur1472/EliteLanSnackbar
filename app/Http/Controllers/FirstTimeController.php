@@ -9,7 +9,7 @@ class FirstTimeController extends Controller
     public function index(Request $request)
     {
         return view('first-time.index', [
-            'name' => $request->user()->name
+            'name' => $request->user()->name,
         ]);
     }
 
@@ -17,7 +17,7 @@ class FirstTimeController extends Controller
     {
         $name = $request->name;
 
-        if (!$name) {
+        if (! $name) {
             return response()->redirectToRoute('first-time.index');
         }
 

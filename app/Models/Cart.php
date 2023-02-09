@@ -28,7 +28,7 @@ class Cart extends Model
 
     public function getPriceAttribute()
     {
-        $lines = $this->cartLines->map(fn($cartLine) => [
+        $lines = $this->cartLines->map(fn ($cartLine) => [
             'price' => $cartLine->quantity * $cartLine->item->price,
         ]);
 
@@ -37,12 +37,12 @@ class Cart extends Model
 
     public function getItemsAttribute(): Collection
     {
-        return $this->cartLines->transform(fn($cartLine) => [
-            'name'        => $cartLine->item->name,
+        return $this->cartLines->transform(fn ($cartLine) => [
+            'name' => $cartLine->item->name,
             'description' => $cartLine->item->description,
-            'price'       => $cartLine->item->price,
-            'quantity'    => $cartLine->quantity,
-            'toppings'    => Topping::getToppingsFromArray($cartLine->toppings),
+            'price' => $cartLine->item->price,
+            'quantity' => $cartLine->quantity,
+            'toppings' => Topping::getToppingsFromArray($cartLine->toppings),
             'total_price' => $cartLine->quantity * $cartLine->item->price,
         ]);
     }
@@ -62,10 +62,10 @@ class Cart extends Model
         }
 
         CartLines::create([
-            'cart_id'  => $this->id,
-            'item_id'  => $item->id,
+            'cart_id' => $this->id,
+            'item_id' => $item->id,
             'quantity' => $quantity,
-            'toppings' => is_array($toppings) && !empty($toppings) ? json_encode($toppings) : null,
+            'toppings' => is_array($toppings) && ! empty($toppings) ? json_encode($toppings) : null,
         ]);
     }
 
@@ -85,7 +85,7 @@ class Cart extends Model
             }
 
             $item = Item::find($orderLine->item_id);
-            if (!$item || !$item->active || !$item->type->active) {
+            if (! $item || ! $item->active || ! $item->type->active) {
                 continue;
             }
 

@@ -12,7 +12,7 @@ class OrderController extends Controller
     {
         $user = $request->user();
 
-        $ordersStatuses = $user->orders()->with('status')->get()->sortByDesc(['status_id','id'])->groupBy('status_id');
+        $ordersStatuses = $user->orders()->with('status')->get()->sortByDesc(['status_id', 'id'])->groupBy('status_id');
 
         return view('orders.index', [
             'ordersStatuses' => $ordersStatuses,
@@ -27,7 +27,7 @@ class OrderController extends Controller
         $inactiveProducts = collect();
 
         foreach ($cart->cartLines as $cartLine) {
-            if (!$cartLine->item->active || !$cartLine->item->type->active) {
+            if (! $cartLine->item->active || ! $cartLine->item->type->active) {
                 $inactiveProducts->add($cartLine->item->name);
                 $cartLine->delete();
             }
@@ -49,6 +49,7 @@ class OrderController extends Controller
         }
 
         Cart::importFromOrder($order);
+
         return response()->redirectToRoute('carts.index');
     }
 }

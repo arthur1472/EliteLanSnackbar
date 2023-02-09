@@ -14,7 +14,7 @@ class Topping extends Model
 
     public static function getToppingsFromArray(array $toppingIds): Collection
     {
-        return collect($toppingIds)->transform(fn($toppingId) => self::find($toppingId));
+        return collect($toppingIds)->transform(fn ($toppingId) => self::find($toppingId));
     }
 
     public function scopeActive($query)

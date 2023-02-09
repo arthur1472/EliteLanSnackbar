@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //                ->middleware('guest')
 //                ->name('login');
 
-Route::get('/login', fn() => view('auth.discordlogin'))
+Route::get('/login', fn () => view('auth.discordlogin'))
                 ->middleware('guest')
                 ->name('login');
 

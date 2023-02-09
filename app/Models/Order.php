@@ -33,7 +33,7 @@ class Order extends Model
 
     public function getPriceAttribute()
     {
-        $lines = $this->orderLines->map(fn($orderLine) => [
+        $lines = $this->orderLines->map(fn ($orderLine) => [
             'price' => $orderLine->quantity * $orderLine->item->price,
         ]);
 
@@ -42,12 +42,12 @@ class Order extends Model
 
     public function getItemsAttribute(): Collection
     {
-        return $this->orderLines->transform(fn($orderLine) => [
-            'name'        => $orderLine->item->name,
+        return $this->orderLines->transform(fn ($orderLine) => [
+            'name' => $orderLine->item->name,
             'description' => $orderLine->item->description,
-            'price'       => $orderLine->item->price,
-            'quantity'    => $orderLine->quantity,
-            'toppings'    => Topping::getToppingsFromArray($orderLine->toppings),
+            'price' => $orderLine->item->price,
+            'quantity' => $orderLine->quantity,
+            'toppings' => Topping::getToppingsFromArray($orderLine->toppings),
             'total_price' => $orderLine->quantity * $orderLine->item->price,
         ]);
     }
@@ -55,7 +55,7 @@ class Order extends Model
     public static function importFromCart(Cart $cart, $note = null)
     {
         $order = Order::create([
-            'user_id'   => $cart->user_id,
+            'user_id' => $cart->user_id,
             'status_id' => Status::NIEUW,
             'user_note' => $note,
         ]);
@@ -63,7 +63,7 @@ class Order extends Model
         foreach ($cart->cartLines as $cartLine) {
             OrderLine::create([
                 'order_id' => $order->id,
-                'item_id'  => $cartLine->item_id,
+                'item_id' => $cartLine->item_id,
                 'quantity' => $cartLine->quantity,
                 'toppings' => $cartLine->toppings,
             ]);

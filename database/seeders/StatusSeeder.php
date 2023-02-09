@@ -16,23 +16,23 @@ class StatusSeeder extends Seeder
     {
         $statuses = [
             [
-                'id'          => Status::NIEUW,
-                'name'        => 'Nieuw',
+                'id' => Status::NIEUW,
+                'name' => 'Nieuw',
                 'color_class' => 'bg-black',
             ],
             [
-                'id'          => Status::IN_BEHANDELING,
-                'name'        => 'In behandeling',
+                'id' => Status::IN_BEHANDELING,
+                'name' => 'In behandeling',
                 'color_class' => 'bg-blue-500',
             ],
             [
-                'id'          => Status::KLAAR,
-                'name'        => 'Klaar',
+                'id' => Status::KLAAR,
+                'name' => 'Klaar',
                 'color_class' => 'bg-green-500',
             ],
             [
-                'id'          => Status::AFGEWEZEN,
-                'name'        => 'Afgewezen',
+                'id' => Status::AFGEWEZEN,
+                'name' => 'Afgewezen',
                 'color_class' => 'bg-red-500',
             ],
         ];

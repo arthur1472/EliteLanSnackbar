@@ -18,9 +18,9 @@ class CartController extends Controller
 
     public function addItem(Request $request)
     {
-        $itemId = (int)$request->itemId;
-        $user   = $request->user();
-        $cart   = $user->cart;
+        $itemId = (int) $request->itemId;
+        $user = $request->user();
+        $cart = $user->cart;
 
         $item = Item::find($itemId);
 
@@ -28,7 +28,7 @@ class CartController extends Controller
             return response()->redirectToRoute('items.index');
         }
 
-        $toppings      = $request->toppings;
+        $toppings = $request->toppings;
         $toppingsArray = [];
 
         if ($toppings) {
@@ -54,7 +54,7 @@ class CartController extends Controller
 
     public function changeQuantity(Request $request, CartLines $cart_line)
     {
-        $quantity = (int)$request->quantity;
+        $quantity = (int) $request->quantity;
 
         if ($request->user()->id !== $cart_line->cart->user_id) {
             return response()->redirectToRoute('carts.index');

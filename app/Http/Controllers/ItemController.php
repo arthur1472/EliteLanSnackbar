@@ -22,7 +22,7 @@ class ItemController extends Controller
         }
 
         return view('items.configure', [
-            'item' => $item
+            'item' => $item,
         ]);
     }
 }

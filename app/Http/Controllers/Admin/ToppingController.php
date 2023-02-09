@@ -23,8 +23,8 @@ class ToppingController extends Controller
     public function store(Request $request)
     {
         Topping::create([
-            'name'     => $request->name,
-            'active'   => $request->active === 'on',
+            'name' => $request->name,
+            'active' => $request->active === 'on',
         ]);
 
         return response()->redirectToRoute('admin.toppings.index');
@@ -46,8 +46,8 @@ class ToppingController extends Controller
 
     public function update(Request $request, Topping $topping)
     {
-        $topping->name     = $request->name;
-        $topping->active   = $request->active === 'on';
+        $topping->name = $request->name;
+        $topping->active = $request->active === 'on';
 
         $topping->save();
 
@@ -57,6 +57,7 @@ class ToppingController extends Controller
     public function destroy(Topping $topping)
     {
         $topping->delete();
+
         return response()->redirectToRoute('admin.toppings.index');
     }
 }

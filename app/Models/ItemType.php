@@ -13,11 +13,11 @@ class ItemType extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     protected $with = [
-        'items'
+        'items',
     ];
 
     public function items(): HasMany

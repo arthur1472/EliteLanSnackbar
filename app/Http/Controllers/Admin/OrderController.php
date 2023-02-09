@@ -19,14 +19,14 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return view('admin.orders.show', [
-            'order'    => $order,
+            'order' => $order,
             'statuses' => Status::all(),
         ]);
     }
 
     public function update(Request $request, Order $order)
     {
-        $order->status_id   = $request->status;
+        $order->status_id = $request->status;
         $order->system_note = $request->system_note;
 
         $order->save();

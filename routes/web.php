@@ -28,8 +28,8 @@ Route::get('/', function () {
     return response()->redirectToRoute('login');
 });
 
-Route::middleware('auth')->group(function() {
-    Route::middleware('is.not.first-time')->group(function() {
+Route::middleware('auth')->group(function () {
+    Route::middleware('is.not.first-time')->group(function () {
 //        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/items', [ItemController::class, 'index'])->name('items.index');
@@ -54,11 +54,9 @@ Route::middleware('auth')->group(function() {
         Route::resource('toppings', AdminToppingController::class);
         Route::resource('item-types', AdminItemTypeController::class);
     });
-
 });
 
-Route::get('/discord/redirect', fn() => Socialite::driver('discord')->redirect())->name('discord.redirect');
+Route::get('/discord/redirect', fn () => Socialite::driver('discord')->redirect())->name('discord.redirect');
 Route::get('/discord/return', [DiscordController::class, 'returnUrl'])->name('discord.return');
-
 
 require __DIR__.'/auth.php';

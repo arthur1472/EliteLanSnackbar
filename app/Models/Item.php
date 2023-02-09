@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Item extends Model
 {
@@ -30,7 +29,7 @@ class Item extends Model
 
     public function hasTopping(Topping $topping): bool
     {
-        return $this->toppings->filter(fn($filterTopping) => $topping->id === $filterTopping->id)->count();
+        return $this->toppings->filter(fn ($filterTopping) => $topping->id === $filterTopping->id)->count();
     }
 
     public function scopeActive($query)
