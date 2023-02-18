@@ -1,5 +1,6 @@
 <?php
 
+use Cknow\Money\Money;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         \App\Models\Item::all()->each(function ($item) {
-            $moneyObject = \Cknow\Money\Money::parseByDecimal($item->price, 'EUR');
+            $moneyObject = Money::parseByIntl($item->price, 'EUR');
             $item->price = $moneyObject;
             $item->save();
         });
