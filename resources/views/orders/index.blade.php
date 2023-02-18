@@ -67,7 +67,7 @@
                                             <div>
                                                 <dt class="font-medium text-gray-900">Totaal bedrag</dt>
                                                 <dd class="mt-1 font-medium text-gray-900">
-                                                    €{{number_format($order->price, 2)}}
+                                                    {{$order->total_price}}
                                                 </dd>
                                             </div>
                                         </dl>
@@ -103,11 +103,11 @@
                                                                 {{$orderLine->item->name}} ({{$orderLine->quantity}}x)
                                                             </h5>
                                                             <p class="mt-2 sm:mt-0">
-                                                                €{{number_format($orderLine->item->price * $orderLine->quantity, 2)}}
+                                                                {{$orderLine->total_price}}
                                                             </p>
                                                         </div>
                                                         <p class="text-gray-500 block mt-2">
-                                                            €{{number_format($orderLine->item->price, 2)}} p.st.
+                                                            {{$orderLine->line_price}} p.st.
                                                         </p>
                                                         <p class="text-gray-500 block mt-2">
                                                             @if($orderLine->toppingModels)

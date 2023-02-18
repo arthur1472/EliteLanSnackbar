@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-span-6">
                                     <label for="price" class="block text-sm font-medium text-gray-700">Prijs</label>
-                                    <input type="number" value="{{$item->price}}" name="price" id="price" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input type="number" value="{{$item->price->formatByDecimal()}}" name="price" id="price" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                                 <div class="col-span-6">
                                     <label for="active" class="block text-sm font-medium text-gray-700">Actief</label>

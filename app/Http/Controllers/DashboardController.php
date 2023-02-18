@@ -2,10 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Cknow\Money\Money;
+use Illuminate\Http\Request;
+
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
+        $user   = $request->user();
+        $wallet = $user->wallet;
+
+        $lastFiveActivities = collect();
+
+        $allActivities = $user->audits()->orderBy('created_at', 'desc')->limit(10)->get();
+
+        foreach ($allActivities as $activity) {
+            $activityUserId = $activity->user_id;
+            $activityType   = $activity->user_type;
+            $isUser         = false;
+            $activityUser   = false;
+
+            if ($activityType) {
+                $isUser = new $activityType() instanceof User;
+            }
+
+            if ($isUser) {
+                $activityUser = User::find($activityUserId);
+            }
+
+            $oldWalletAmount = Money::parse($activity->old_values['wallet']);
+            $newWalletAmount = Money::parse($activity->new_values['wallet']);
+            $difference      = $newWalletAmount->subtract($oldWalletAmount);
+
+            $lastFiveActivities->add([
+                'self'            => $activityUserId === $user->getKey() && $isUser && $difference->isNegative(),
+                'oldWalletAmount' => Money::parse($activity->old_values['wallet']),
+                'newWalletAmount' => Money::parse($activity->new_values['wallet']),
+                'difference'      => $difference,
+                'date'            => $activity->created_at,
+                'activityUser'    => $activityUser,
+            ]);
+        }
+
+        return view('dashboard', [
+            'wallet'             => $wallet,
+            'lastFiveActivities' => $lastFiveActivities,
+        ]);
     }
 }

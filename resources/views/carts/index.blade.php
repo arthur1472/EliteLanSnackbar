@@ -29,6 +29,23 @@
                     </div>
                 </div>
             @endif
+            @if (session('insufficientBalance'))
+                <div class="rounded-md bg-red-50 p-4 mt-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <!-- Heroicon name: solid/x-circle -->
+                            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">
+                                Je hebt niet genoeg saldo om deze bestelling te plaatsen
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="mt-8">
                 <section aria-labelledby="cart-heading">
                     <ul role="list" class="border-t border-b border-gray-200 divide-y divide-gray-200">
@@ -48,13 +65,13 @@
                                                     {{$cartLine->item->name}}
                                                 </a>
                                             </h4>
-                                            <p class="ml-4 text-sm font-medium text-gray-900">€{{number_format($cartLine->quantity * $cartLine->item->price,2)}}</p>
+                                            <p class="ml-4 text-sm font-medium text-gray-900">{{$cartLine->item->price->multiply($cartLine->quantity)}}</p>
                                         </div>
                                         <p class="mt-1 text-sm text-gray-500">
                                             {{$cartLine->item->description}}
                                         </p>
                                         <p class="mt-1 text-sm text-gray-500">
-                                            €{{number_format($cartLine->item->price,2)}} p.st.
+                                            {{$cartLine->item->price}} p.st.
                                         </p>
                                     </div>
                                     @if($cartLine->toppingModels)
@@ -96,34 +113,81 @@
                 <form action="{{route('orders.store')}}" method="post">
                 @csrf
                     <!-- Order summary -->
-                    <section aria-labelledby="summary-heading" class="mt-10">
+                    <section aria-labelledby="summary-heading">
                         <h2 id="summary-heading" class="sr-only">Bestelling overzicht</h2>
 
-                        <div>
+                        <div class="pt-5">
                             <dl class="space-y-4">
                                 <div class="flex items-center justify-between">
                                     <dt class="text-base font-medium text-gray-900">
                                         Totaal
                                     </dt>
                                     <dd class="ml-4 text-base font-medium text-gray-900">
-                                        €{{number_format($cart->price,2)}}
+                                        {{$cart->price}}
                                     </dd>
                                 </div>
                             </dl>
                         </div>
+                        <div class="border-t mt-5 pt-5">
+                            <div>
+                                <dl class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <dt class="text-base font-medium text-gray-900">
+                                            Huidig saldo
+                                        </dt>
+                                        <dd class="ml-4 text-base font-medium text-gray-900">
+                                            {{$cart->user->wallet}}
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                            <div>
+                                <dl class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <dt class="text-base font-medium text-gray-900">
+                                            Saldo na bestelling
+                                        </dt>
+                                        <dd class="ml-4 text-base font-medium text-gray-900">
+                                            {{$cart->user->wallet->subtract($cart->price)}}
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
 
 
                         @if($cart->cartLines->count() > 0)
-                            <div class="border-t mt-10 pt-6">
+                            <div class="border-t mt-5 pt-6">
                                 <label for="note" class="block text-sm font-medium text-gray-700">Opmerking <span class="text-xs">(optioneel)</span></label>
                                 <div class="mt-1">
                                     <textarea id="note" name="note" rows="3" class="shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
                                 </div>
                             </div>
 
+                            @php
+                                $insufficientBalance = $cart->user->wallet->subtract($cart->price)->isNegative();
+                            @endphp
 
-                            <div class="mt-10">
-                                <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Bestellen</button>
+                            @if($insufficientBalance)
+                                <div class="rounded-md bg-red-50 p-4 mt-6">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <!-- Heroicon name: solid/x-circle -->
+                                            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="text-sm font-medium text-red-800">
+                                                Je hebt niet genoeg saldo om deze bestelling te plaatsen
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="mt-6">
+                                <button @if($insufficientBalance) disabled class="w-full bg-yellow-400 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white" @else class="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500" @endif type="submit">Bestellen</button>
                             </div>
                         @endif
 

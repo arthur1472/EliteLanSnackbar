@@ -37,6 +37,10 @@ class OrderController extends Controller
             return response()->redirectToRoute('carts.index')->with('productNames', $inactiveProducts);
         }
 
+        if ($user->wallet->subtract($cart->price)->isNegative()) {
+            return response()->redirectToRoute('carts.index')->with('insufficientBalance', true);
+        }
+
         Order::importFromCart($cart, $request->note);
 
         return response()->redirectToRoute('orders.index')->with('success', 'true');

@@ -12,6 +12,9 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
+                        {{ __('Overzicht') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                         {{ __('Bestellingen') }}
                     </x-nav-link>
@@ -42,6 +45,9 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             @if(Auth::user()->is_admin)
+                                <x-dropdown-link :href="route('admin.users.index')">
+                                    {{ __('Gebruikers') }}
+                                </x-dropdown-link>
                                 <x-dropdown-link :href="route('admin.items.index')">
                                     {{ __('Producten') }}
                                 </x-dropdown-link>
@@ -82,6 +88,9 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
+                {{ __('Overzicht') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                 {{ __('Bestellingen') }}
             </x-responsive-nav-link>

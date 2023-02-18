@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ItemController as AdminItemController;
 use App\Http\Controllers\Admin\ItemTypeController as AdminItemTypeController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ToppingController as AdminToppingController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
@@ -30,7 +31,7 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::middleware('is.not.first-time')->group(function () {
-//        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
         Route::get('/items', [ItemController::class, 'index'])->name('items.index');
         Route::get('/items/{item}/configure', [ItemController::class, 'configure'])->name('items.configure');
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('is.admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('items', AdminItemController::class);
         Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
+        Route::resource('users', AdminUserController::class)->only(['index', 'edit', 'update']);
         Route::resource('toppings', AdminToppingController::class);
         Route::resource('item-types', AdminItemTypeController::class);
     });

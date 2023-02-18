@@ -26,7 +26,7 @@
                                     </h3>
                                     <p class="mt-1 text-sm text-gray-500">{{$item->description}}</p>
                                 </div>
-                                <p class="text-md font-medium text-gray-900">€{{number_format($item->price,2)}}</p>
+                                <p class="text-md font-medium text-gray-900">{{$item->price}}</p>
                             </div>
 
                             <div class="mt-4">
