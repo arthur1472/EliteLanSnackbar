@@ -17,6 +17,15 @@
                             {{ $wallet }}
                         </dd>
                     </div>
+                    <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                        <dt class="text-sm font-medium text-gray-500 truncate">
+                            Opwaarderen
+                        </dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                            <a href="{{config('snackbar.top_up_5_euro')}}"><button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">5 euro</button></a>
+                            <a href="{{config('snackbar.top_up_10_euro')}}"><button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">10 euro</button></a>
+                        </dd>
+                    </div>
                 </dl>
             </div>
         </div>

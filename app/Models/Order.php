@@ -48,6 +48,21 @@ class Order extends Model
         return $price;
     }
 
+    public function scopeNew($query)
+    {
+        return $query->where('status_id', '=', 1);
+    }
+
+    public function scopePrepare($query)
+    {
+        return $query->where('status_id', '=', 2);
+    }
+
+    public function scopeReady($query)
+    {
+        return $query->where('status_id', '=', 3);
+    }
+
     public function getItemsAttribute(): Collection
     {
         return $this->orderLines->transform(fn($orderLine) => [

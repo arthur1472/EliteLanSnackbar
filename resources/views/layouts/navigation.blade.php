@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('orders.index') }}">
+                    <a href="{{ route('dashboard.index') }}">
                         <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
                     </a>
                 </div>
@@ -112,6 +112,9 @@
                     @csrf
 
                     @if(Auth::user()->is_admin)
+                        <x-responsive-nav-link :href="route('admin.users.index')">
+                            {{ __('Gebruikers') }}
+                        </x-responsive-nav-link>
                         <x-responsive-nav-link :href="route('admin.items.index')">
                             {{ __('Producten') }}
                         </x-responsive-nav-link>

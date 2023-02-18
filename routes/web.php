@@ -11,6 +11,7 @@ use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\FirstTimeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PreparationController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -60,5 +61,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/discord/redirect', fn () => Socialite::driver('discord')->redirect())->name('discord.redirect');
 Route::get('/discord/return', [DiscordController::class, 'returnUrl'])->name('discord.return');
+
+Route::get('/preparation', [PreparationController::class, 'index'])->name('preparation.index');
 
 require __DIR__.'/auth.php';
