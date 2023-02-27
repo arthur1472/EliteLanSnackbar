@@ -39,7 +39,7 @@ class ItemController extends Controller
             'active'            => $request->active === 'on',
             'item_type_id'      => $request->item_type,
             'stock'             => $request->stock,
-            'portion_size'      => $request->portion_size,
+            'portion_size'      => $request->portion_size < 1 ? 1 : $request->portion_size,
             'backorder_allowed' => $request->backorder_allowed === 'on',
         ]);
 
@@ -91,7 +91,7 @@ class ItemController extends Controller
         $item->active            = $request->active === 'on';
         $item->item_type_id      = $request->item_type;
         $item->stock             = $request->stock;
-        $item->portion_size      = $request->portion_size;
+        $item->portion_size      = $request->portion_size < 1 ? 1 : $request->portion_size;
         $item->backorder_allowed = $request->backorder_allowed === 'on';
 
         $toppings      = $request->toppings;
