@@ -6,10 +6,12 @@ use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Item extends Model
+class Item extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
 
@@ -34,7 +36,7 @@ class Item extends Model
 
     public function hasTopping(Topping $topping): bool
     {
-        return $this->toppings->filter(fn ($filterTopping) => $topping->id === $filterTopping->id)->count();
+        return $this->toppings->filter(fn($filterTopping) => $topping->id === $filterTopping->id)->count();
     }
 
     public function scopeActive($query)
@@ -59,7 +61,7 @@ class Item extends Model
 
     public function substractPortions(int $portions)
     {
-        $this->stock = $portions * $this->portion_size;
+        $this->stock -= ($portions * $this->portion_size);
         $this->save();
     }
 

@@ -90,18 +90,20 @@
                                     @endif
                                     <div class="mt-4 flex-1 flex items-end justify-between">
                                         <div class="flex items-center">
-                                            <form method="post" class="cursor-pointer" id="cart-subtract" action="{{route('carts.quantity')}}">
-                                                @csrf
-                                                <input type="hidden" name="item_id" value="{{ $cartLine->item->getKey() }}">
-                                                <input type="hidden" name="action" value="-">
-                                                <div onclick="document.getElementById('cart-subtract').submit();" class="p-1 border-2 border-black rounded-md mr-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
-                                                    </svg>
-                                                </div>
-                                            </form>
+                                            @if($cartLine->toppings === null)
+                                                <form method="post" class="cursor-pointer" id="cart-subtract" action="{{route('carts.quantity')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="item_id" value="{{ $cartLine->item->getKey() }}">
+                                                    <input type="hidden" name="action" value="-">
+                                                    <div onclick="document.getElementById('cart-subtract').submit();" class="p-1 border-2 border-black rounded-md mr-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                                                        </svg>
+                                                    </div>
+                                                </form>
+                                            @endif
                                             <p class="text-sm text-gray-700">{{ $cartLine->quantity }} in winkelwagen</p>
-                                            @if($cartLine->item->isAvailableToOrder())
+                                            @if($cartLine->item->isAvailableToOrder() && $cartLine->toppings === null)
                                                 <form method="post" class="cursor-pointer" id="cart-plus" action="{{route('carts.quantity')}}">
                                                     @csrf
                                                     <input type="hidden" name="item_id" value="{{ $cartLine->item->getKey() }}">

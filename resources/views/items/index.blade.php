@@ -32,7 +32,7 @@
                                     </div>
                                     <div>
                                         <p class="text-md text-right font-medium text-gray-900">{{$item->price}}</p>
-                                        <p class="text-sm text-gray-500">{{$item->portionsAvailable()}} porties op voorraad</p>
+                                        <p class="text-sm text-gray-500">@if($item->backorder_allowed) ∞ @else {{$item->portionsAvailable()}} @endif porties op voorraad</p>
 
                                     </div>
                                 </div>

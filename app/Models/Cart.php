@@ -57,8 +57,12 @@ class Cart extends Model
             return false;
         }
 
-        $cartLine = $this->cartLines->where('item_id', $item->id)?->first();
-        if (! $item->hasToppings() && $cartLine) {
+        $cartLine = $this->cartLines
+            ->where('item_id', $item->id)
+            ->where('toppings', null)
+            ?->first();
+
+        if ((! $item->hasToppings() || $toppings === null) && $cartLine) {
             if ($cartLine->quantity >= 20) {
                 return false;
             }

@@ -20,9 +20,9 @@ class CartController extends Controller
 
     public function addItem(Request $request)
     {
-        $itemId = (int) $request->itemId;
-        $user = $request->user();
-        $cart = $user->cart;
+        $itemId = (int)$request->itemId;
+        $user   = $request->user();
+        $cart   = $user->cart;
 
         $item = Item::find($itemId);
 
@@ -39,7 +39,7 @@ class CartController extends Controller
                 return response()->redirectToRoute('items.index');
             }
 
-            $toppings = $request->toppings;
+            $toppings      = $request->toppings;
             $toppingsArray = [];
 
             if ($toppings) {
@@ -70,7 +70,7 @@ class CartController extends Controller
 
     public function changeQuantity(Request $request)
     {
-        $itemId = (int) $request->item_id;
+        $itemId = (int)$request->item_id;
         $action = $request->action;
 
         $item = Item::find($itemId);
@@ -80,10 +80,16 @@ class CartController extends Controller
         try {
             $lock->block(10);
 
-            $cartLine = $request->user()->cart?->cartLines?->where('item_id', $itemId)?->first();
+            $cartLine = $request->user()
+                ->cart
+                ?->cartLines
+                ?->where('item_id', $itemId)
+                ?->where('toppings', null)
+                ?->first();
 
             if (! $item->active) {
                 $cartLine->delete();
+
                 return response()->redirectToRoute('carts.index');
             }
 
@@ -93,17 +99,20 @@ class CartController extends Controller
 
             if ($action === '-' && $cartLine->quantity === 1) {
                 $cartLine->delete();
+
                 return response()->redirectToRoute('carts.index');
             }
 
             if ($action === '-') {
                 --$cartLine->quantity;
                 $cartLine->save();
+
                 return response()->redirectToRoute('carts.index');
             }
 
             if ($action === '+') {
                 $cartLine->cart->addItem($item);
+
                 return response()->redirectToRoute('carts.index');
             }
         } catch (LockTimeoutException $e) {
