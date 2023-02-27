@@ -33,12 +33,14 @@ class ItemController extends Controller
         }
 
         $item = Item::create([
-            'name'         => $request->name,
-            'description'  => $request->description,
-            'price'        => Money::parseByDecimal($request->price, 'EUR'),
-            'active'       => $request->active === 'on',
-            'item_type_id' => $request->item_type,
-            'stock'        => $request->stock,
+            'name'              => $request->name,
+            'description'       => $request->description,
+            'price'             => Money::parseByDecimal($request->price, 'EUR'),
+            'active'            => $request->active === 'on',
+            'item_type_id'      => $request->item_type,
+            'stock'             => $request->stock,
+            'portion_size'      => $request->portion_size,
+            'backorder_allowed' => $request->backorder_allowed === 'on',
         ]);
 
         $toppings      = $request->toppings;
@@ -83,12 +85,14 @@ class ItemController extends Controller
             return response()->redirectToRoute('admin.items.edit', ['item' => $item]);
         }
 
-        $item->name         = $request->name;
-        $item->description  = $request->description;
-        $item->price        = Money::parseByDecimal($request->price, 'EUR');
-        $item->active       = $request->active === 'on';
-        $item->item_type_id = $request->item_type;
-        $item->stock        = $request->stock;
+        $item->name              = $request->name;
+        $item->description       = $request->description;
+        $item->price             = Money::parseByDecimal($request->price, 'EUR');
+        $item->active            = $request->active === 'on';
+        $item->item_type_id      = $request->item_type;
+        $item->stock             = $request->stock;
+        $item->portion_size      = $request->portion_size;
+        $item->backorder_allowed = $request->backorder_allowed === 'on';
 
         $toppings      = $request->toppings;
         $toppingsArray = [];
