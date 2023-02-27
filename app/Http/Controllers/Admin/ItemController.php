@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\ItemType;
 use App\Models\Topping;
+use Cknow\Money\Money;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -21,7 +22,7 @@ class ItemController extends Controller
     {
         return view('admin.items.create', [
             'itemTypes' => ItemType::all(),
-            'toppings' => Topping::active()->get(),
+            'toppings'  => Topping::active()->get(),
         ]);
     }
 
@@ -32,14 +33,14 @@ class ItemController extends Controller
         }
 
         $item = Item::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'active' => $request->active === 'on',
+            'name'         => $request->name,
+            'description'  => $request->description,
+            'price'        => Money::parseByDecimal($request->price, 'EUR'),
+            'active'       => $request->active === 'on',
             'item_type_id' => $request->item_type,
         ]);
 
-        $toppings = $request->toppings;
+        $toppings      = $request->toppings;
         $toppingsArray = [];
 
         if ($toppings) {
@@ -69,9 +70,9 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         return view('admin.items.edit', [
-            'item' => $item,
+            'item'      => $item,
             'itemTypes' => ItemType::all(),
-            'toppings' => Topping::active()->get(),
+            'toppings'  => Topping::active()->get(),
         ]);
     }
 
@@ -81,13 +82,13 @@ class ItemController extends Controller
             return response()->redirectToRoute('admin.items.edit', ['item' => $item]);
         }
 
-        $item->name = $request->name;
-        $item->description = $request->description;
-        $item->price = $request->price;
-        $item->active = $request->active === 'on';
+        $item->name         = $request->name;
+        $item->description  = $request->description;
+        $item->price        = Money::parseByDecimal($request->price, 'EUR');
+        $item->active       = $request->active === 'on';
         $item->item_type_id = $request->item_type;
 
-        $toppings = $request->toppings;
+        $toppings      = $request->toppings;
         $toppingsArray = [];
 
         if ($toppings) {
