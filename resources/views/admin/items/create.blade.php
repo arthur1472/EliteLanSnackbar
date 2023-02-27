@@ -21,6 +21,18 @@
                                     <input type="number" name="price" id="price" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                                 <div class="col-span-6">
+                                    <label for="stock" class="block text-sm font-medium text-gray-700">Voorraad</label>
+                                    <input type="number" name="stock" id="stock" value="0" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-span-6">
+                                    <label for="portion_size" class="block text-sm font-medium text-gray-700">Portie grootte</label>
+                                    <input type="number" name="portion_size" id="portion_size" value="5" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-span-6">
+                                    <label for="backorder_allowed" class="block text-sm font-medium text-gray-700">Oneindig bestelbaar</label>
+                                    <input type="checkbox" name="backorder_allowed" id="backorder_allowed" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-span-6">
                                     <label for="active" class="block text-sm font-medium text-gray-700">Actief</label>
                                     <input type="checkbox" name="active" id="active" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>

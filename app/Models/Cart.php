@@ -51,18 +51,26 @@ class Cart extends Model
         ]);
     }
 
-    public function addItem(Item $item, $quantity = 1, $toppings = null)
+    public function addItem(Item $item, $quantity = 1, $toppings = null): bool
     {
-        $cartLine = $this->cartLines->where('item_id', $item->id)->first();
+        if (! $item->active) {
+            return false;
+        }
+
+        $cartLine = $this->cartLines->where('item_id', $item->id)?->first();
         if (! $item->hasToppings() && $cartLine) {
             if ($cartLine->quantity >= 20) {
-                return;
+                return false;
+            }
+
+            if (! $cartLine->item->isAvailableToOrder()) {
+                return false;
             }
 
             $cartLine->quantity++;
             $cartLine->save();
 
-            return;
+            return true;
         }
 
         CartLines::create([
@@ -71,6 +79,8 @@ class Cart extends Model
             'quantity' => $quantity,
             'toppings' => is_array($toppings) && ! empty($toppings) ? json_encode($toppings) : null,
         ]);
+
+        return true;
     }
 
     public static function importFromOrder(Order $order)

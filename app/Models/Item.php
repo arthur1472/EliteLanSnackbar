@@ -41,4 +41,40 @@ class Item extends Model
     {
         return $query->where('active', 1);
     }
+
+    public function isAvailableToOrder()
+    {
+        return $this->portionsAvailable() > 0 || $this->backorder_allowed;
+    }
+
+    public function isPortionsAvailable(int $portions)
+    {
+        return $this->portionsAvailable() <= $portions || $this->backorder_allowed;
+    }
+
+    public function portionsAvailable()
+    {
+        return floor($this->amountStockAvailable() / $this->portion_size);
+    }
+
+    public function substractPortions(int $portions)
+    {
+        $this->stock = $portions * $this->portion_size;
+        $this->save();
+    }
+
+    public function amountStockAvailable()
+    {
+        $cartQuantities = 0;
+
+        $cartLines = CartLines::where('item_id', $this->getKey())->get();
+        $cartLines->each(function ($cartLine) use (&$cartQuantities) {
+            $cartQuantities += $cartLine->quantity;
+        });
+
+        $totalStockUsed = $cartQuantities * $this->portion_size;
+
+        return $this->stock - $totalStockUsed;
+    }
+
 }

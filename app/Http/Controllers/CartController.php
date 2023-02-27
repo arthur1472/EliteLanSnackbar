@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\CartLines;
 use App\Models\Item;
 use App\Models\Topping;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CartController extends Controller
 {
@@ -24,48 +26,91 @@ class CartController extends Controller
 
         $item = Item::find($itemId);
 
-        if (! $item) {
-            return response()->redirectToRoute('items.index');
-        }
+        $lock = Cache::lock("{$item->getKey()}_cart_mutation", 10);
 
-        $toppings = $request->toppings;
-        $toppingsArray = [];
+        try {
+            $lock->block(10);
 
-        if ($toppings) {
-            foreach ($toppings as $topping => $value) {
-                $toppingModel = Topping::find($topping);
-
-                if (! $toppingModel) {
-                    return response()->redirectToRoute('items.configure', ['item' => $item->id]);
-                }
-
-                if (! $item->hasTopping($toppingModel)) {
-                    return response()->redirectToRoute('items.configure', ['item' => $item->id]);
-                }
-
-                $toppingsArray[] = $topping;
+            if (! $item) {
+                return response()->redirectToRoute('items.index');
             }
-        }
 
-        $cart->addItem($item, toppings: $toppingsArray === [] ? null : $toppingsArray);
+            if (! $item->isAvailableToOrder()) {
+                return response()->redirectToRoute('items.index');
+            }
+
+            $toppings = $request->toppings;
+            $toppingsArray = [];
+
+            if ($toppings) {
+                foreach ($toppings as $topping => $value) {
+                    $toppingModel = Topping::find($topping);
+
+                    if (! $toppingModel) {
+                        return response()->redirectToRoute('items.configure', ['item' => $item->id]);
+                    }
+
+                    if (! $item->hasTopping($toppingModel)) {
+                        return response()->redirectToRoute('items.configure', ['item' => $item->id]);
+                    }
+
+                    $toppingsArray[] = $topping;
+                }
+            }
+
+            $cart->addItem($item, toppings: $toppingsArray === [] ? null : $toppingsArray);
+        } catch (LockTimeoutException $e) {
+            dd($e);
+        } finally {
+            $lock?->release();
+        }
 
         return response()->redirectToRoute('carts.index');
     }
 
-    public function changeQuantity(Request $request, CartLines $cart_line)
+    public function changeQuantity(Request $request)
     {
-        $quantity = (int) $request->quantity;
+        $itemId = (int) $request->item_id;
+        $action = $request->action;
 
-        if ($request->user()->id !== $cart_line->cart->user_id) {
-            return response()->redirectToRoute('carts.index');
+        $item = Item::find($itemId);
+
+        $lock = Cache::lock("{$item->getKey()}_cart_mutation", 10);
+
+        try {
+            $lock->block(10);
+
+            $cartLine = $request->user()->cart?->cartLines?->where('item_id', $itemId)?->first();
+
+            if (! $item->active) {
+                $cartLine->delete();
+                return response()->redirectToRoute('carts.index');
+            }
+
+            if (! $cartLine) {
+                return response()->redirectToRoute('carts.index');
+            }
+
+            if ($action === '-' && $cartLine->quantity === 1) {
+                $cartLine->delete();
+                return response()->redirectToRoute('carts.index');
+            }
+
+            if ($action === '-') {
+                --$cartLine->quantity;
+                $cartLine->save();
+                return response()->redirectToRoute('carts.index');
+            }
+
+            if ($action === '+') {
+                $cartLine->cart->addItem($item);
+                return response()->redirectToRoute('carts.index');
+            }
+        } catch (LockTimeoutException $e) {
+            dd($e);
+        } finally {
+            $lock?->release();
         }
-
-        if ($quantity === 0 || $quantity > 20) {
-            return response()->redirectToRoute('carts.index');
-        }
-
-        $cart_line->quantity = $quantity;
-        $cart_line->save();
 
         return response()->redirectToRoute('carts.index');
     }

@@ -6,11 +6,13 @@ use App\Casts\MoneyCast;
 use App\Events\OrderCreatedEvent;
 use App\Events\OrderUpdatedEvent;
 use Cknow\Money\Money;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class Order extends Model
 {
@@ -85,6 +87,23 @@ class Order extends Model
             $totalCartLinePrice = $item->price->multiply($cartLine->quantity);
 
             $orderPrice = $orderPrice->add($totalCartLinePrice);
+
+            $lock = Cache::lock("{$item->getKey()}_stock_mutation", 10);
+
+            try {
+                $lock->block(10);
+
+                if (! $item->isPortionsAvailable($cartLine->quantity)) {
+                    continue;
+                }
+
+                $item->substractPortions($cartLine->quantity);
+            } catch (LockTimeoutException $e) {
+                dd($e);
+                continue;
+            } finally {
+                $lock?->release();
+            }
 
             $orderLines[] = [
                 'item_id'     => $cartLine->item_id,

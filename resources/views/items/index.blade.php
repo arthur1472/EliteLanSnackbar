@@ -25,9 +25,16 @@
                                                 <span aria-hidden="true" class="absolute inset-0"></span>
                                                 {{$item->name}}
                                         </h3>
-                                        <p class="mt-1 text-sm text-gray-500">{{$item->description}}</p>
+                                        <p class="mt-1 text-sm text-gray-500">{{$item->portion_size}} stuk(s)</p>
+                                        @if(!empty($item->description))
+                                            <p class="mt-1 text-sm text-gray-500">{{$item->description}}</p>
+                                        @endif
                                     </div>
-                                    <p class="text-md font-medium text-gray-900">{{$item->price}}</p>
+                                    <div>
+                                        <p class="text-md text-right font-medium text-gray-900">{{$item->price}}</p>
+                                        <p class="text-sm text-gray-500">{{$item->portionsAvailable()}} porties op voorraad</p>
+
+                                    </div>
                                 </div>
 
                                 <div class="mt-4">
@@ -37,7 +44,7 @@
                                         <form action="{{route('carts.add_item')}}" method="POST">
                                             @csrf
                                             <input type="hidden" value="{{$item->id}}" name="itemId">
-                                            <button type="submit" class="w-full relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200">Toevoegen</button>
+                                            <button type="submit" @if(!$item->isAvailableToOrder()) disabled @endif class="w-full relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200">Toevoegen</button>
                                         </form>
                                     @endif
                                 </div>

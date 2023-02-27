@@ -22,6 +22,18 @@
                                     <input type="number" value="{{$item->price->formatByDecimal()}}" name="price" id="price" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                                 <div class="col-span-6">
+                                    <label for="stock" class="block text-sm font-medium text-gray-700">Voorraad</label>
+                                    <input type="number" value="{{$item->stock}}" name="stock" id="stock" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-span-6">
+                                    <label for="portion_size" class="block text-sm font-medium text-gray-700">Portie grootte</label>
+                                    <input type="number" value="{{$item->portion_size}}" name="portion_size" id="portion_size" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-span-6">
+                                    <label for="backorder_allowed" class="block text-sm font-medium text-gray-700">Oneindig bestelbaar</label>
+                                    <input type="checkbox" @if($item->backorder_allowed) checked @endif name="backorder_allowed" id="backorder_allowed" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-span-6">
                                     <label for="active" class="block text-sm font-medium text-gray-700">Actief</label>
                                     <input type="checkbox" @if($item->active) checked @endif name="active" id="active" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>

@@ -68,32 +68,62 @@
                                             <p class="ml-4 text-sm font-medium text-gray-900">{{$cartLine->item->price->multiply($cartLine->quantity)}}</p>
                                         </div>
                                         <p class="mt-1 text-sm text-gray-500">
-                                            {{$cartLine->item->description}}
+                                            {{$cartLine->item->portion_size}} stuk(s)
                                         </p>
+                                        @if(!empty($cartLine->item->description))
+                                            <p class="mt-1 text-sm text-gray-500">
+                                                {{$cartLine->item->description}}
+                                            </p>
+                                        @endif
                                         <p class="mt-1 text-sm text-gray-500">
-                                            {{$cartLine->item->price}} p.st.
+                                            {{ $cartLine->item->price }} p.st.
                                         </p>
                                     </div>
                                     @if($cartLine->toppingModels)
                                         <div class="mt-4">
                                             @foreach($cartLine->toppingModels as $topping)
                                                 <p class="mt-1 text-sm text-gray-500">
-                                                    - {{$topping->name}}
+                                                    - {{ $topping->name }}
                                                 </p>
                                             @endforeach
                                         </div>
                                     @endif
                                     <div class="mt-4 flex-1 flex items-end justify-between">
-                                        <p class="flex items-start text-sm text-gray-700 space-x-2">
-                                            <form class="w-full" id="cart_line_{{$cartLine->id}}" method="post" action="{{route('carts.quantity', ['cart_line' => $cartLine->id])}}">
+                                        <div class="flex items-center">
+                                            <form method="post" class="cursor-pointer" id="cart-subtract" action="{{route('carts.quantity')}}">
                                                 @csrf
-                                                <select onchange="document.getElementById('cart_line_{{$cartLine->id}}').submit()" id="quantity" name="quantity" class="max-w-full rounded-md border border-gray-300 py-1.5 text-base leading-5 font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    @for($i = 1; $i <= 20; $i++)
-                                                        <option value="{{$i}}" @if($i === $cartLine->quantity) selected @endif>{{$i}}</option>
-                                                    @endfor
-                                                </select>
+                                                <input type="hidden" name="item_id" value="{{ $cartLine->item->getKey() }}">
+                                                <input type="hidden" name="action" value="-">
+                                                <div onclick="document.getElementById('cart-subtract').submit();" class="p-1 border-2 border-black rounded-md mr-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                                                    </svg>
+                                                </div>
                                             </form>
-                                        </p>
+                                            <p class="text-sm text-gray-700">{{ $cartLine->quantity }} in winkelwagen</p>
+                                            @if($cartLine->item->isAvailableToOrder())
+                                                <form method="post" class="cursor-pointer" id="cart-plus" action="{{route('carts.quantity')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="item_id" value="{{ $cartLine->item->getKey() }}">
+                                                    <input type="hidden" name="action" value="+">
+                                                    <div onclick="document.getElementById('cart-plus').submit();" class="p-1 border-2 border-black rounded-md ml-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                                                        </svg>
+                                                    </div>
+                                                </form>
+                                            @endif
+                                        </div>
+                                        {{--                                        <p class="flex items-start text-sm text-gray-700 space-x-2">--}}
+{{--                                            <form class="w-full" id="cart_line_{{$cartLine->id}}" method="post" action="{{route('carts.quantity', ['cart_line' => $cartLine->id])}}">--}}
+{{--                                                @csrf--}}
+{{--                                                <select onchange="document.getElementById('cart_line_{{$cartLine->id}}').submit()" id="quantity" name="quantity" class="max-w-full rounded-md border border-gray-300 py-1.5 text-base leading-5 font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">--}}
+{{--                                                    @for($i = 1; $i <= $cartLine->item->portionsAvailable(); $i++)--}}
+{{--                                                        <option value="{{$i}}" @if($i === $cartLine->quantity) selected @endif>{{$i}}</option>--}}
+{{--                                                    @endfor--}}
+{{--                                                </select>--}}
+{{--                                            </form>--}}
+{{--                                        </p>--}}
                                         <div class="ml-4">
                                             <form action="{{route('carts.delete', ['cart_line' => $cartLine->id])}}" method="post">
                                                 @csrf
