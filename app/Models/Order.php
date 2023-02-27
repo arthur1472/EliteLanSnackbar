@@ -85,10 +85,7 @@ class Order extends Model implements Auditable
         $orderPrice = new Money();
 
         foreach ($cart->cartLines as $cartLine) {
-            $item               = $cartLine->item;
-            $totalCartLinePrice = $item->price->multiply($cartLine->quantity);
-
-            $orderPrice = $orderPrice->add($totalCartLinePrice);
+            $item = $cartLine->item;
 
             $lock = Cache::lock("{$item->getKey()}_stock_mutation", 10);
 
@@ -106,6 +103,9 @@ class Order extends Model implements Auditable
             } finally {
                 $lock?->release();
             }
+
+            $totalCartLinePrice = $item->price->multiply($cartLine->quantity);
+            $orderPrice         = $orderPrice->add($totalCartLinePrice);
 
             $orderLines[] = [
                 'item_id'     => $cartLine->item_id,
@@ -130,7 +130,7 @@ class Order extends Model implements Auditable
             OrderLine::create($orderLine);
         }
 
-        $user = $cart->user;
+        $user         = $cart->user;
         $user->wallet = $user->wallet->subtract($orderPrice);
         $user->save();
 

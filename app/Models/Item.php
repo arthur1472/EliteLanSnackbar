@@ -51,12 +51,12 @@ class Item extends Model implements Auditable
 
     public function isPortionsAvailable(int $portions)
     {
-        return $this->portionsAvailable() <= $portions || $this->backorder_allowed;
+        return $this->portionsAvailable() >= $portions || $this->backorder_allowed;
     }
 
     public function portionsAvailable()
     {
-        return floor($this->amountStockAvailable() / $this->portion_size);
+        return (int)floor($this->amountStockAvailable() / $this->portion_size);
     }
 
     public function substractPortions(int $portions)
