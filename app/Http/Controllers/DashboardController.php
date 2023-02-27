@@ -31,14 +31,14 @@ class DashboardController extends Controller
                 $activityUser = User::find($activityUserId);
             }
 
-            $oldWalletAmount = Money::parse($activity->old_values['wallet']);
-            $newWalletAmount = Money::parse($activity->new_values['wallet']);
+            $oldWalletAmount = Money::parse($activity->old_values['wallet'] ?? 0);
+            $newWalletAmount = Money::parse($activity->new_values['wallet'] ?? 0);
             $difference      = $newWalletAmount->subtract($oldWalletAmount);
 
             $lastFiveActivities->add([
                 'self'            => $activityUserId === $user->getKey() && $isUser && $difference->isNegative(),
-                'oldWalletAmount' => Money::parse($activity->old_values['wallet']),
-                'newWalletAmount' => Money::parse($activity->new_values['wallet']),
+                'oldWalletAmount' => Money::parse($activity->old_values['wallet'] ?? 0),
+                'newWalletAmount' => Money::parse($activity->new_values['wallet'] ?? 0),
                 'difference'      => $difference,
                 'date'            => $activity->created_at,
                 'activityUser'    => $activityUser,
