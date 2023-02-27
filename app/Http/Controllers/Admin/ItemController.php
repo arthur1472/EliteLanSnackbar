@@ -38,6 +38,7 @@ class ItemController extends Controller
             'price'        => Money::parseByDecimal($request->price, 'EUR'),
             'active'       => $request->active === 'on',
             'item_type_id' => $request->item_type,
+            'stock'        => $request->stock,
         ]);
 
         $toppings      = $request->toppings;
@@ -87,6 +88,7 @@ class ItemController extends Controller
         $item->price        = Money::parseByDecimal($request->price, 'EUR');
         $item->active       = $request->active === 'on';
         $item->item_type_id = $request->item_type;
+        $item->stock        = $request->stock;
 
         $toppings      = $request->toppings;
         $toppingsArray = [];
