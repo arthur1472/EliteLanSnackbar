@@ -61,6 +61,9 @@
                                     {{ __('Categorieën') }}
                                 </x-dropdown-link>
                             @endif
+                            <x-dropdown-link :href="route('profile.index')">
+                                {{ __('Profiel') }}
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -128,6 +131,9 @@
                             {{ __('Categorieën') }}
                         </x-responsive-nav-link>
                     @endif
+                    <x-responsive-nav-link :href="route('profile.index')">
+                        {{ __('Profiel') }}
+                    </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">

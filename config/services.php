@@ -41,4 +41,9 @@ return [
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'jpg'), // only pick from jpg, png, webp
     ],
 
+    'whatsapp' => [
+        'url' => env('WHATSAPP_URL'),
+        'authentication_key' => env('WHATSAPP_AUTHENTICATION_TOKEN'),
+    ],
+
 ];

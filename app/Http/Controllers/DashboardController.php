@@ -15,7 +15,7 @@ class DashboardController extends Controller
 
         $lastFiveActivities = collect();
 
-        $allActivities = $user->audits()->orderBy('created_at', 'desc')->limit(10)->get();
+        $allActivities = $user->audits()->orderBy('created_at', 'desc')->where('old_values', 'like', '%wallet%')->limit(10)->get();
 
         foreach ($allActivities as $activity) {
             $activityUserId = $activity->user_id;

@@ -80,18 +80,17 @@
                             <h3 class="text-gray-900 text-2xl font-bold font-medium truncate">Openingstijden</h3>
                         </div>
                         <p class="mt-2 text-gray-900 font-bold text-base">Vrijdag</p>
-                        <p class="mt-1 text-gray-900 text-md">12-00-16:00 (Snacks, Tosti's, Broodjes)</p>
-                        <p class="mt-1 text-gray-900 text-md">21:00-23:30 (Snacks, Fingerfood)</p>
+                        <p class="mt-1 text-gray-900 text-md">21:00-23:00 (Fingerfood)</p>
 
                         <p class="mt-4 text-gray-900 font-bold text-base">Zaterdag</p>
-                        <p class="mt-1 text-gray-900 text-md">10:00-11:00 (Tosti's, Broodjes)</p>
-                        <p class="mt-1 text-gray-900 text-md">12:00-13:30 (Snacks, Tosti's, Broodjes)</p>
-                        <p class="mt-1 text-gray-900 text-md">15:00-16:00 (Snacks)</p>
-                        <p class="mt-1 text-gray-900 text-md">21:00-23:30 (Snacks, Fingerfood)</p>
+                        <p class="mt-1 text-gray-900 text-md">09:30-10:30 (Tosti's, Pita's)</p>
+                        <p class="mt-1 text-gray-900 text-md">12:00-13:00 (Tosti's, Pita's, Fingerfood)</p>
+                        <p class="mt-1 text-gray-900 text-md">15:00-16:00 (Fingerfood)</p>
+                        <p class="mt-1 text-gray-900 text-md">21:00-23:00 (Fingerfood)</p>
 
                         <p class="mt-4 text-gray-900 font-bold text-base">Zondag</p>
-                        <p class="mt-1 text-gray-900 text-md">09:00-10:30 (Tosti's, Broodjes)</p>
-                        <p class="mt-1 text-gray-900 text-md">11:00-13:00 DOUBLE HAPPY HOUR!! ALLES VOOR 50 CENT!</p>
+                        <p class="mt-1 text-gray-900 text-md">09:00-10:00 (Tosti's, Pita's)</p>
+                        <p class="mt-1 text-gray-900 text-md">11:00-13:00 DOUBLE HAPPY HOUR!! ALLES 50 CENT KORTING!</p>
                     </div>
                 </div>
             </li>

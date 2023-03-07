@@ -12,6 +12,7 @@ use App\Http\Controllers\FirstTimeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PreparationController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -33,6 +34,10 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware('is.not.first-time')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile/phone-verification', [ProfileController::class, 'phoneVerification'])->name('profile.phone_verification');
 
         Route::get('/items', [ItemController::class, 'index'])->name('items.index');
         Route::get('/items/{item}/configure', [ItemController::class, 'configure'])->name('items.configure');

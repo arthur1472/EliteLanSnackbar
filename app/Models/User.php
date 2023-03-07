@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,16 +29,20 @@ class User extends Authenticatable implements Auditable
     ];
 
     protected $casts = [
-        'wallet' => MoneyCast::class,
-    ];
-
-    protected $auditInclude = [
-        'wallet',
+        'wallet'                => MoneyCast::class,
+        'discord_mention'       => 'bool',
+        'enable_whatsapp'       => 'bool',
+        'phone_number_verified' => 'bool',
     ];
 
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function phoneVerification(): HasOne
+    {
+        return $this->hasOne(PhoneVerification::class);
     }
 
     public function getCartAttribute()
@@ -53,9 +58,18 @@ class User extends Authenticatable implements Auditable
         ]);
     }
 
-    public function getActivitylogOptions(): LogOptions
+    public function shouldSendWhatsappMessage()
     {
-        return LogOptions::defaults()
-                         ->logOnly(['wallet']);
+        return $this->phone_number && $this->phone_number_verified && $this->enable_whatsapp;
+    }
+
+    public function getPhoneNumberWithoutPrefixAttribute()
+    {
+        return substr($this->phone_number, 3);
+    }
+
+    public function hasValidPhoneVerificationCode(): bool
+    {
+        return $this->phoneVerification()->count() === 1;
     }
 }
