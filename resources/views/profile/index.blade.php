@@ -91,7 +91,7 @@
                                         </label>
                                     </div>
                                     <div class="ml-3 flex h-5 items-center">
-                                        <input id="discord_mention" name="discord_mention"  type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        <input id="discord_mention" name="discord_mention" @if($user->discord_mention) checked @endif type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                                     </div>
                                 </li>
                             </ul>
