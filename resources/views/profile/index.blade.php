@@ -46,7 +46,7 @@
                                     <div class="flex flex-col">
                                         <label for="whatsapp_message">
                                             <p class="text-sm font-medium text-gray-900" id="privacy-option-1-label">Whatsapp berichten</p>
-                                            <p class="text-sm text-gray-500" id="privacy-option-1-description">Zet deze optie aan als je updates wilt ontvangen via Whatsapp. Verifieer eerst je telefoonnummer voordat je dit aan zet (invullen en opslaan, dan komt de verificatie naar voren).</p>
+                                            <p class="text-sm text-gray-500" id="privacy-option-1-description">Zet deze optie aan als je updates wilt ontvangen via Whatsapp. Verifieer eerst je telefoonnummer, dan pas zal deze optie werken (invullen en opslaan, dan komt de verificatie naar voren).</p>
                                         </label>
                                     </div>
                                     <div class="ml-3 flex h-5 items-center">
