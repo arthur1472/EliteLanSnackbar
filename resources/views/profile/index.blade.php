@@ -13,6 +13,12 @@
                 <p class="mt-1 text-md text-gray-500">Hier staat wat informatie over jou.</p>
             </div>
 
+            @if(isset($success))
+                <div class="my-4 w-full bg-green-400 p-4 rounded-lg text-white">
+                    <p>Je wijziging is succesvol opgeslagen</p>
+                </div>
+            @endif
+
             <p class="text-xl mt-6">Whatsapp</p>
             <div class="mt-3 flex flex-col lg:flex-row">
                 <form action="{{ route('profile.update') }}" method="POST" class="w-full">

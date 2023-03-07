@@ -12,7 +12,15 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        return view('profile.index', ['user' => $request->user()]);
+        $viewArray = [
+            'user' => $request->user()
+        ];
+
+        if ($request->success !== null) {
+            $viewArray['success'] = true;
+        }
+
+        return view('profile.index', $viewArray);
     }
 
     public function update(Request $request)
@@ -52,7 +60,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return response()->redirectToRoute('profile.index');
+        return response()->redirectToRoute('profile.index', ['success' => 'success']);
     }
 
     public function phoneVerification(Request $request)
