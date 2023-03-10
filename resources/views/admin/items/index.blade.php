@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="bg-white">
-        <div class="max-w-4xl mx-auto pt-8 pb-16 px-4 sm:px-6 lg:px-0">
+        <div class="max-w-7xl mx-auto pt-8 pb-16 px-4 sm:px-6 lg:px-0">
             <h1 class="text-3xl font-extrabold text-center tracking-tight text-gray-900 sm:text-4xl">Producten</h1>
 
             <div class="flex flex-col mt-8">
