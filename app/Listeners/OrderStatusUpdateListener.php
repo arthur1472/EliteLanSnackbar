@@ -15,9 +15,15 @@ class OrderStatusUpdateListener
         $user    = $order->user;
 
         if (isset($changes['status_id'])) {
+            $mentionOrName = "<@{$user->discord_id}>";
+
+            if (! $user->discord_mention) {
+                $mentionOrName = $user->name;
+            }
+
             SendDiscordWebhookMessageJob::dispatch(
                 config('snackbar.status'),
-                "<@{$user->discord_id}> je bestelling met nr. {$order->id} heeft nu de status: {$order->status->name}"
+                "{$mentionOrName} je bestelling met nr. {$order->id} heeft nu de status: {$order->status->name}"
             );
 
             if ($user->shouldSendWhatsappMessage()) {

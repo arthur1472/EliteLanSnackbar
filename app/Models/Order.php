@@ -79,10 +79,23 @@ class Order extends Model implements Auditable
         ]);
     }
 
+    public function getAvailableStatusses()
+    {
+        $currentOrderStatus = $this->status->getKey();
+
+        if ($currentOrderStatus === Status::AFGEWEZEN) {
+            return Status::all()->filter(fn($status) => $status->getKey() === Status::AFGEWEZEN);
+        }
+
+        return Status::all()->filter(fn($status) => $currentOrderStatus !== $status->getKey());
+    }
+
     public static function importFromCart(Cart $cart, $note = null)
     {
         $orderLines = [];
         $orderPrice = new Money();
+
+        $errors = [];
 
         foreach ($cart->cartLines as $cartLine) {
             $item = $cartLine->item;
@@ -93,6 +106,7 @@ class Order extends Model implements Auditable
                 $lock->block(10);
 
                 if (! $item->isPortionsAvailable($cartLine->quantity)) {
+                    $errors[] = "Helaas was het product {$item->name} niet meer op voorraad, deze is van je order af gehaald.";
                     continue;
                 }
 
@@ -116,6 +130,12 @@ class Order extends Model implements Auditable
             ];
 
             $cartLine->delete();
+        }
+
+        if ($orderPrice->isZero() || count($orderLines) === 0) {
+            $errors[] = "De prijs of aantal order regels is 0";
+
+            return to_route('carts.index', ['errors' => $errors]);
         }
 
         $order = Order::create([

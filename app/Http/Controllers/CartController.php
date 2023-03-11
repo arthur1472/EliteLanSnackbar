@@ -14,7 +14,8 @@ class CartController extends Controller
     public function index(Request $request)
     {
         return view('carts.index', [
-            'cart' => $request->user()->cart,
+            'cart'   => $request->user()->cart,
+            'errors' => $request->errors ?? null,
         ]);
     }
 

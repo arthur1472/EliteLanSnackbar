@@ -52,7 +52,7 @@
                                                 <ul>
                                                     @foreach($order->orderLines as $orderLine)
                                                         <li class="p-2 sm:p-2">
-                                                            <div class="flex items-center sm:items-start">
+                                                            <div class="flex items-center sm:items-start justify-between">
                                                                 <div class="flex-1 text-sm">
                                                                     <div class="font-medium text-gray-900 sm:flex sm:justify-between">
                                                                         <h5>
@@ -79,6 +79,17 @@
                                                     @endforeach
                                                 </ul>
                                             </td>
+                                            <td></td>
+                                            @foreach($order->getAvailableStatusses() as $availableStatus)
+                                                <td>
+                                                    <form method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="status_id" value="{{ $availableStatus->getKey() }}">
+                                                        <input type="hidden" name="order_id" value="{{ $order->getKey() }}">
+                                                        <input type="submit" name="{{ $availableStatus->name }}" value="{{ $availableStatus->name }}" class="m-2 inline-flex items-center font-bold px-3 py-2 border border-transparent text-sm text-white leading-4 font-medium rounded-md {{$availableStatus->color_class}}">
+                                                    </form>
+                                                </td>
+                                            @endforeach
                                         </tr>
                                     </tbody>
                                 @endforeach

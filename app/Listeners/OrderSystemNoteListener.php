@@ -15,9 +15,15 @@ class OrderSystemNoteListener
         $user    = $order->user;
 
         if (isset($changes['system_note'])) {
+            $mentionOrName = "<@{$user->discord_id}>";
+
+            if (! $user->discord_mention) {
+                $mentionOrName = $user->name;
+            }
+
             SendDiscordWebhookMessageJob::dispatch(
                 config('snackbar.note'),
-                "<@{$user->discord_id}> er is een notitie op bestelling nr. {$order->id} toegevoegd met: {$order->system_note}"
+                "{$mentionOrName} er is een notitie op bestelling nr. {$order->id} toegevoegd met: {$order->system_note}"
             );
 
             if ($user->shouldSendWhatsappMessage()) {

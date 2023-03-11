@@ -13,7 +13,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $viewArray = [
-            'user' => $request->user()
+            'user' => $request->user(),
         ];
 
         if ($request->success !== null) {
@@ -46,12 +46,18 @@ class ProfileController extends Controller
             }
 
             if (! empty($whatsappMessage)) {
-                $user->enable_whatsapp = $whatsappMessage === 'on';
+                $user->enable_whatsapp = true;
+            } else {
+                $user->enable_whatsapp = false;
             }
         }
 
-        if ($request->discord_button && ! empty($discordMention)) {
-            $user->discord_mention = $discordMention === 'on';
+        if ($request->discord_button) {
+            if (! empty($discordMention)) {
+                $user->discord_mention = true;
+            } else {
+                $user->discord_mention = false;
+            }
         }
 
         if ($request->personal_info_button && ! empty($name)) {

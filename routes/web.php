@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('is.admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('items', AdminItemController::class);
         Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
+        Route::post('orders', [AdminOrderController::class, 'indexUpdate'])->name('orders.index.update');
         Route::resource('users', AdminUserController::class)->only(['index', 'edit', 'update']);
         Route::resource('toppings', AdminToppingController::class);
         Route::resource('item-types', AdminItemTypeController::class);
